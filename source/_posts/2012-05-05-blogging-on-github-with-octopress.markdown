@@ -29,8 +29,18 @@ unordered list
 1. well, numbered
 1. lists I don't seem to have understood by now
 
-``` java
-   System.out.println("huhu");
+I had a problem during install reading
+
+``` bash
+sam:octopress viola$ rake setup_github_pages
+rake aborted!
+You have already activated rake 0.9.2.2, but your Gemfile requires rake 0.9.2. Using bundle exec may solve this.
+```   
+So I built several helper scripts, the longest being
+``` bash deploy
+bundle exec rake generate
+bundle exec rake deploy
+git push origin source
 ```   
 
 
