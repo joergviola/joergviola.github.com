@@ -8,6 +8,9 @@ categories: Play
 Our game-changing new app went to heroku for user tests.
 Currently it is in a closed test phase.
 (Lean startup enthusiast? - Me too, I'll love to discuss why we're doing that).
+Learn how simple it is to Basic-Auth a whole Play App!
+
+<!-- more -->
 
 So I had to put a simple basic auth in front of it.
 Well, simple with Play 2.0:

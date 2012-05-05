@@ -12,6 +12,8 @@ I already knew I could publish a static site from github.
 Well, I was impressed how simple it is to publish a fully functional blog using 
 [jekyll](http://github.com/mojombo/jekyll) or, even simpler, [Octopress](http://octopress.org/).
 
+<!-- more -->
+
 I do demonstrate some capabilities here.
 You can access the source of this page 
 [here](https://raw.github.com/joergviola/joergviola.github.com/source/source/_posts/2012-05-05-blogging-on-github-with-octopress.markdown).
