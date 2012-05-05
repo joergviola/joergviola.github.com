@@ -1,0 +1,3 @@
+bundle exec rake generate
+bundle exec rake deploy
+git push origin source

@@ -14,7 +14,7 @@ Well, I was impressed how simple it is to publish a fully functional blog using
 
 I do demonstrate some capabilities here.
 You can access the source of this page 
-[here](https://github.com/joergviola/joergviola.github.com/blob/source/source/_posts/2012-05-05-blogging-on-github-with-octopress.markdown).
+[here](https://raw.github.com/joergviola/joergviola.github.com/source/source/_posts/2012-05-05-blogging-on-github-with-octopress.markdown).
 
 A caption
 ---------
