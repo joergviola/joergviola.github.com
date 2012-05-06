@@ -3,7 +3,7 @@ layout: post
 title: "JQuery UI Tools - UI Toolkit for Dummies"
 date: 2012-05-06 21:35
 comments: true
-categories: 
+categories: Javascript
 ---
 Interesting in fancy tabs, tooltips or overlays? -
 

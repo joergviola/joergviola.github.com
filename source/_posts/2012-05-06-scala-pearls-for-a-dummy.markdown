@@ -3,7 +3,7 @@ layout: post
 title: "Scala pearls for a dummy"
 date: 2012-05-06 11:33
 comments: true
-categories: 
+categories: Play, Scala
 ---
 
 After migrating to Play 2.0, being convinced one can use it with Java alone, 

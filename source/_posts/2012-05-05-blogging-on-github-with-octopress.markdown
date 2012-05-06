@@ -4,8 +4,8 @@ title: "Blogging on GitHub with Octopress"
 date: 2012-05-05 10:10
 comments: true
 categories: 
-- blog
-- github 
+- Blog
+- Github 
 ---
 
 I already knew I could publish a static site from github.
