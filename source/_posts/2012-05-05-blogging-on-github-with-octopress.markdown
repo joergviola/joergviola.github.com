@@ -28,8 +28,10 @@ very lazily written
 unordered list
 * with a second item
 
+Here comes some text
+
 1. well, numbered
-1. lists I don't seem to have understood by now
+1. lists I seem to have understood now (you must seperate them from unordered lists by some text)
 
 I had a problem during install reading
 
