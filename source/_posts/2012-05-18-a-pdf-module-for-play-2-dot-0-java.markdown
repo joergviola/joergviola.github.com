@@ -50,5 +50,19 @@ where ```PDF.ok``` is a simple shorthand notation for:
 ``` java
 	ok(PDF.toBytes(document.render("Your new application is ready."))).as("application/pdf")
 ```
+
+In order to use that module, simply add to your Build.scala these lines:
+``` java
+    val appDependencies = Seq(
+      "pdf" % "pdf_2.9.1" % "0.2",
+      ...
+    )
+    val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA, settings = s).settings(
+    		resolvers += Resolver.url("My GitHub Play Repository", url("http://www.joergviola.de/releases/"))(Resolver.ivyStylePatterns),
+    		...
+    )
+```
+[...and the Source is with You!](https://github.com/joergviola/play20-pdf)
+
 I am just starting to use this module, so I don't know how limited XHTML and CSS usage is.
 Just let me know in the comments - thanks!
