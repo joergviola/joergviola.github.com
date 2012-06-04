@@ -8,6 +8,8 @@ categories: Play
 I proudly announce the first release (0.1) of funcy, a library for
 Page Driven Functional Tests for Play 2.0-Java.
 
+[See GitHub for source and docu.](https://github.com/joergviola/funcy) 
+
 <!-- more -->
 
 Functional Tests in Play 2.0 are the best way to test web applications:
