@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Scala | Joerg Viola]]></title>
+  <link href="http://joergviola.github.com/blog/categories/scala/atom.xml" rel="self"/>
+  <link href="http://joergviola.github.com/"/>
+  <updated>2012-11-25T22:10:56+01:00</updated>
+  <id>http://joergviola.github.com/</id>
+  <author>
+    <name><![CDATA[Joerg Viola]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Why Scala templates rock]]></title>
+    <link href="http://joergviola.github.com/blog/2012/05/12/why-scala-templates-rock/"/>
+    <updated>2012-05-12T18:19:00+02:00</updated>
+    <id>http://joergviola.github.com/blog/2012/05/12/why-scala-templates-rock</id>
+    <content type="html"><![CDATA[<p>Play 2.0 uses Scala for HTML templates.
+They are checked at compile-time, so you never again get ghostly errors in production
+due to unforeseen situations.</p>
+
+<p>But besides that, you can do other great things with ease.
+Using a practical application of Scala functions for list pagination, for example.</p>
+
+<!-- more -->
+
+
+<h2>Pagination with EBean</h2>
+
+<p>The EBean ORM used by Play 2.0 provides tools for very simply querying for paginated lists.
+Since our web application is about seminars, we have e.g. this accessor for top rated seminars:
+``` java Seminar.java
+public static Page<Seminar> top(int size, int page) {</p>
+
+<pre><code>return find.where().orderBy("rating desc")
+       .findPagingList(size).getPage(page);
+</code></pre>
+
+<p><code>
+This can be used by our `Publics` controller to render a page of top rated seminars:
+</code> java Publics.java
+public static Result top(int page) {</p>
+
+<pre><code>return ok(top.render(Seminar.top(10, page)));
+</code></pre>
+
+<p>}
+<code>
+The template for rendering this list is very simple:
+</code> html top.scala.html
+@(seminars : Page[Seminar])</p>
+
+<p>@for(seminar &lt;- seminars.getList){</p>
+
+<pre><code>@seminarInList(seminar)
+</code></pre>
+
+<p>} <br/>
+<code>
+and pagination is added equally simple:
+</code> html seminarList.scala.html
+@if(seminars.getTotalPageCount>1){</p>
+
+<pre><code>@if(seminars.hasPrev) {
+    &lt;a href="@routes.Publics.top(seminars.getPageIndex - 1)"&gt;&amp;larr;&lt;/a&gt;
+} else {
+    &amp;larr;
+}
+@for(p &lt;- 1 to page.getTotalPageCount) {
+    @if(p-1==seminars.getPageIndex) {
+        @p
+    } else {
+        &lt;a href="@routes.Publics.top(p-1)"&gt;@p&lt;/a&gt;
+    }
+}
+@if(seminars.hasNext) {
+    &lt;a href="@routes.Publics.top(seminars.getPageIndex + 1)"&gt;&amp;rarr;&lt;/a&gt;
+} else {
+    &amp;rarr;
+}
+</code></pre>
+
+<p>} <br/>
+```</p>
+
+<h2>Add flexibility with Scala functions</h2>
+
+<p>As you can image, we have all kind of seminar lists: Top rated, newest, in one category and so on.
+We would of course very much like to have a sub-template capable of rendering any list of seminars.
+But the pagination links then have to be customized.</p>
+
+<p>This can be done easily using Scala functions:
+The method of the router representing the link in Scala reads <code>routes.Publics.top(page:Int):Call</code>.
+Applying the Scala wildcard <code>_</code> to it like in <code>routes.Publics.top(_)</code> creates a Scala function
+mapping an Int to a Call: <code>Int =&gt; Call</code>. Functions of this type are exactly the parameters we want to have
+in a generalized seminar list template:
+``` html seminarList.scala.html
+@(seminars : Page[Seminar], link: Int => Call)</p>
+
+<p>@for(seminar &lt;- seminars.getList){</p>
+
+<pre><code>@seminarInList(seminar)
+</code></pre>
+
+<p>} <br/>
+<code>
+because the pagination can then make simple use of it:
+</code> html seminarList.scala.html
+@if(seminars.getTotalPageCount>1){</p>
+
+<pre><code>@if(seminars.hasPrev) {
+    &lt;a href="@link(seminars.getPageIndex - 1)"&gt;&amp;larr;&lt;/a&gt;
+} else {
+    &amp;larr;
+}
+@for(p &lt;- 1 to page.getTotalPageCount) {
+    @if(p-1==seminars.getPageIndex) {
+        @p
+    } else {
+        &lt;a href="@link(p-1)"&gt;@p&lt;/a&gt;
+    }
+}
+@if(seminars.hasNext) {
+    &lt;a href="@link(seminars.getPageIndex + 1)"&gt;&amp;rarr;&lt;/a&gt;
+} else {
+    &amp;rarr;
+}
+</code></pre>
+
+<p>} <br/>
+<code>
+This sub-template can then simply be called like:
+</code> html top.scala.html
+@seminarList(top, routes.Publics.top(<em>))  <br/>
+<code>
+or
+</code> html newest.scala.html
+@seminarList(newest, routes.Publics.news(</em>))  <br/>
+```</p>
+
+<p>Scala templates rock!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Scala pearls for a dummy]]></title>
+    <link href="http://joergviola.github.com/blog/2012/05/06/scala-pearls-for-a-dummy/"/>
+    <updated>2012-05-06T11:33:00+02:00</updated>
+    <id>http://joergviola.github.com/blog/2012/05/06/scala-pearls-for-a-dummy</id>
+    <content type="html"><![CDATA[<p>After migrating to Play 2.0, being convinced one can use it with Java alone,
+I was curious enough to take a look at the Scala side of it.
+Read about some nice little discoverings of a scla beginner.</p>
+
+<!-- more -->
+
+
+<p>Of course, the first contact happens in Play 2.0 templates:</p>
+
+<h2>Typesafe</h2>
+
+<p>Templates have a signature, types are behind names and type parameters use square brackets.
+Thus the first line in every template reads like:
+<code>html
+@(state:State, users:List[User])
+</code></p>
+
+<h2>Looping</h2>
+
+<p>It is simple to loop over any collection:
+``` html
+@for(user &lt;- users) {</p>
+
+<pre><code>&lt;li&gt;&lt;a href="@routes.Publics.user(user.id)"&gt;@user.name&lt;/a&gt;&lt;/li&gt;
+</code></pre>
+
+<p>}
+<code>
+The cool thing is, you don't need any template extension or whatever to get the looping index.
+And you have tuples:
+</code> html
+@for((user,index) &lt;- users.zipWithIndex) {</p>
+
+<pre><code>@if(index&gt;0){
+    &lt;div class="seperator"&gt;&lt;/div&gt;
+}
+&lt;a href="@routes.Publics.user(user.id)"&gt;@index. @user.name&lt;/a&gt;
+</code></pre>
+
+<p>}
+<code>
+And - you have functions:
+</code> html
+@users.zipWithIndex.foreach { (user, index) =></p>
+
+<pre><code>@if(index&gt;0){
+    &lt;div class="seperator"&gt;&lt;/div&gt;
+}
+&lt;a href="@routes.Publics.user(user.id)"&gt;@index. @user.name&lt;/a&gt;
+</code></pre>
+
+<p>}
+<code>
+or
+</code> html</p>
+
+<pre><code>&lt;select name="@name" multiple="multiple"&gt;
+    @options.map { v =&gt;
+        &lt;option value="@v._1" @(if(v._3) "selected" else "")&gt;@v._2&lt;/option&gt;
+    }
+&lt;/select&gt;
+</code></pre>
+
+<p><code>
+Did you ever require a String representation of a list?
+</code> scala
+columns.map("<td>" + _ + "</td>").mkString
+```</p>
+
+<h2>Filtering</h2>
+
+<p>Imagine you were to get all Fields of a class with the annotation @Id. Here is the java code:
+``` java
+  public List<Field> idFields(Class&lt;? extends Object> c) {</p>
+
+<pre><code>List&lt;Field result = new ArrayList&lt;Field&gt;();
+for (Field f : c.getFields()) {
+    if (f.getAnnotation(Id.class)!=null) 
+        result.add(f);
+}
+return result;
+</code></pre>
+
+<p>  }
+<code>
+and this is scala:
+</code> scala
+  def idFields(c: Class[_ &lt;: Any]): Seq[Field] = c.getFields().toSeq filter { f => f.getAnnotation(classOf[Id]) != null }
+```</p>
+
+<h2>Case classes</h2>
+
+<p>Talking about shortness:
+``` java
+public class Person {</p>
+
+<pre><code>private String firstName;
+private String lastName;
+private Date birthday;
+private boolean gender;
+
+public Person(String firstName, String lastName, Date birthday,
+        boolean gender) {
+    super();
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.birthday = birthday;
+    this.gender = gender;
+}
+
+public String getFirstName() {
+    return firstName;
+}
+
+public void setFirstName(String firstName) {
+    this.firstName = firstName;
+}
+
+public String getLastName() {
+    return lastName;
+}
+
+public void setLastName(String lastName) {
+    this.lastName = lastName;
+}
+
+public Date getBirthday() {
+    return birthday;
+}
+
+public void setBirthday(Date birthday) {
+    this.birthday = birthday;
+}
+
+public boolean isGender() {
+    return gender;
+}
+
+public void setGender(boolean gender) {
+    this.gender = gender;
+}
+
+@Override
+public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result
+            + ((birthday == null) ? 0 : birthday.hashCode());
+    result = prime * result
+            + ((firstName == null) ? 0 : firstName.hashCode());
+    result = prime * result + (gender ? 1231 : 1237);
+    result = prime * result
+            + ((lastName == null) ? 0 : lastName.hashCode());
+    return result;
+}
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj)
+        return true;
+    if (obj == null)
+        return false;
+    if (getClass() != obj.getClass())
+        return false;
+    Person other = (Person) obj;
+    if (birthday == null) {
+        if (other.birthday != null)
+            return false;
+    } else if (!birthday.equals(other.birthday))
+        return false;
+    if (firstName == null) {
+        if (other.firstName != null)
+            return false;
+    } else if (!firstName.equals(other.firstName))
+        return false;
+    if (gender != other.gender)
+        return false;
+    if (lastName == null) {
+        if (other.lastName != null)
+            return false;
+    } else if (!lastName.equals(other.lastName))
+        return false;
+    return true;
+}
+</code></pre>
+
+<p>}
+<code>
+is equivalent to:
+</code> scala
+  case class Person(val firstName:String, lastName:String, birthday:Date, gender:boolean);
+```</p>
+
+<h2>Built-in singletons</h2>
+
+<p>No static methods:
+``` java
+class Person {</p>
+
+<pre><code>...
+public static Person create() {
+   ...
+   return person;
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>is equivalent to:
+``` scala
+  case class Person(val firstName:String, lastName:String, birthday:Date, gender:boolean);</p>
+
+<p>  object Person {</p>
+
+<pre><code>def create = Person();
+</code></pre>
+
+<p>  }
+```</p>
+
+<h2>Traits</h2>
+
+<p>Not yet used them, though they look cool!</p>
+]]></content>
+  </entry>
+  
+</feed>

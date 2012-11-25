@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Blog | Joerg Viola]]></title>
+  <link href="http://joergviola.github.com/blog/categories/blog/atom.xml" rel="self"/>
+  <link href="http://joergviola.github.com/"/>
+  <updated>2012-11-25T22:10:56+01:00</updated>
+  <id>http://joergviola.github.com/</id>
+  <author>
+    <name><![CDATA[Joerg Viola]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Blogging on GitHub with Octopress]]></title>
+    <link href="http://joergviola.github.com/blog/2012/05/05/blogging-on-github-with-octopress/"/>
+    <updated>2012-05-05T10:10:00+02:00</updated>
+    <id>http://joergviola.github.com/blog/2012/05/05/blogging-on-github-with-octopress</id>
+    <content type="html"><![CDATA[<p>I already knew I could publish a static site from github.
+Well, I was impressed how simple it is to publish a fully functional blog using
+<a href="http://github.com/mojombo/jekyll">jekyll</a> or, even simpler, <a href="http://octopress.org/">Octopress</a>.</p>
+
+<!-- more -->
+
+
+<p>I do demonstrate some capabilities here.
+You can access the source of this page
+<a href="https://raw.github.com/joergviola/joergviola.github.com/source/source/_posts/2012-05-05-blogging-on-github-with-octopress.markdown">here</a>.</p>
+
+<h2>A caption</h2>
+
+<p>This is a test:</p>
+
+<ul>
+<li>Of a
+very lazily written
+unordered list</li>
+<li>with a second item</li>
+</ul>
+
+
+<p>Here comes some text</p>
+
+<ol>
+<li>well, numbered</li>
+<li>lists I seem to have understood now (you must seperate them from unordered lists by some text)</li>
+</ol>
+
+
+<p>I had a problem during install reading</p>
+
+<p><code>bash
+sam:octopress viola$ rake setup_github_pages
+rake aborted!
+You have already activated rake 0.9.2.2, but your Gemfile requires rake 0.9.2. Using bundle exec may solve this.
+</code> <br/>
+So I built several helper scripts, the longest being
+<code>bash deploy
+bundle exec rake generate
+bundle exec rake deploy
+git push origin source
+</code></p>
+
+<p><div><script src='https://gist.github.com/2594860.js?file='></script>
+<noscript><pre><code>public class Global extends GlobalSettings {
+
+	@Override
+	public Action onRequest(Request arg0, Method arg1) {
+		return new Action.Simple() {
+			public Result call(Context ctx) throws Throwable {
+				String authConf = Config.getString(&quot;basic.auth&quot;);
+				if (authConf == null)
+					return delegate.call(ctx);
+				String auth = ctx.request().getHeader(&quot;Authorization&quot;);
+				if (auth == null)
+					return authorize(ctx);
+				String[] comps = auth.split(&quot; &quot;);
+				if (comps.length != 2)
+					return authorize(ctx);
+				if (!&quot;Basic&quot;.equals(comps[0]))
+					return authorize(ctx);
+				BASE64Decoder decoder = new sun.misc.BASE64Decoder();
+				String credentials = new String(decoder.decodeBuffer(comps[1]));
+				if (authConf.equals(credentials))
+					return delegate.call(ctx);
+				return authorize(ctx);
+			}
+
+			private Result authorize(Context ctx) {
+				ctx.response().setHeader(&quot;WWW-Authenticate&quot;,
+						&quot;Basic realm=\&quot;Secure-Me\&quot;&quot;);
+				return unauthorized();
+			}
+		};
+	}
+}
+</code></pre></noscript></div>
+</p>
+
+<p><a href="http://disqus.com">a link</a></p>
+
+<hr />
+]]></content>
+  </entry>
+  
+</feed>

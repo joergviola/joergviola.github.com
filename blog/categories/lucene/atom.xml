@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Lucene | Joerg Viola]]></title>
+  <link href="http://joergviola.github.com/blog/categories/lucene/atom.xml" rel="self"/>
+  <link href="http://joergviola.github.com/"/>
+  <updated>2012-11-25T22:10:56+01:00</updated>
+  <id>http://joergviola.github.com/</id>
+  <author>
+    <name><![CDATA[Joerg Viola]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Simple website search with Lucene?]]></title>
+    <link href="http://joergviola.github.com/blog/2012/05/09/simple-website-search-with-lucene/"/>
+    <updated>2012-05-09T18:38:00+02:00</updated>
+    <id>http://joergviola.github.com/blog/2012/05/09/simple-website-search-with-lucene</id>
+    <content type="html"><![CDATA[<p>Have you ever tried to implement search in your web app?
+Should be easy, eh?
+And of course you want:</p>
+
+<ul>
+<li>To search in all text-fields of nearly all entities in your model</li>
+<li>To get suggestions while the user types the query</li>
+<li>To have the query term highlighted in the search results.</li>
+<li>Update the index as the model changes</li>
+</ul>
+
+
+<p>Since these requirements seem fairly basic, I was surprised how complicated
+they were to implement and how little documented.</p>
+
+<!-- more -->
+
+
+<h2>Multi-field search</h2>
+
+<p>Indexing documents is easy, really. Simply:
+<code>java
+IndexWriter w = new IndexWriter(directory, config);
+Document doc = new Document();
+doc.add(new Field("title", model.title, Field.Store.YES,Field.Index.ANALYZED));
+doc.add(new Field("text", model.text, Field.Store.YES,Field.Index.ANALYZED));
+w.addDocument(doc);
+w.close();
+</code></p>
+
+<p>But when it comes to search for a phrase in all of these fields, things become
+a little involved like so:</p>
+
+<p>``` java
+String[] FIELDS = { "title", "text" };
+MultiFieldQueryParser parser = new MultiFieldQueryParser(</p>
+
+<pre><code>    Version.LUCENE_36, FIELDS, STANDARD_ANALYZER);
+</code></pre>
+
+<p>Query query = parser.parse(q + "*");</p>
+
+<p>int hitsPerPage = 10;
+IndexReader reader = IndexReader.open(directory);
+IndexSearcher searcher = new IndexSearcher(reader);
+TopScoreDocCollector collector = TopScoreDocCollector.create(</p>
+
+<pre><code>    hitsPerPage, true);
+</code></pre>
+
+<p>searcher.search(query, collector);
+ScoreDoc[] hits = collector.topDocs().scoreDocs;
+for (int i = 0; i &lt; hits.length; ++i) {</p>
+
+<pre><code>int docId = hits[i].doc;
+Document document = searcher.doc(docId);
+// Do something with it!
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>Suggestions</h2>
+
+<p>I could not yet figure that out, honestly!</p>
+
+<h2>Highlighting</h2>
+
+<p>After having retrieved the document, don't simply call e.g. <code>document.get("text")</code>, but:
+``` java
+TermPositionVector termPosVector = (TermPositionVector) searcher</p>
+
+<pre><code>    .getIndexReader().getTermFreqVector(docId, "text");
+</code></pre>
+
+<p>TokenStream stream = TokenSources.getTokenStream(termPosVector);
+QueryScorer scorer = new QueryScorer(query);
+Fragmenter fragmenter = new SimpleSpanFragmenter(scorer, 10000);
+Highlighter highlighter = new Highlighter(scorer);
+highlighter.setTextFragmenter(fragmenter);
+highlighter.setMaxDocCharsToAnalyze(Integer.MAX_VALUE);</p>
+
+<p>String[] frag = highlighter.getBestFragments(stream, doc.get("text"), 1);
+if (frag.length > 0)</p>
+
+<pre><code>return frag[0];
+</code></pre>
+
+<p>else</p>
+
+<pre><code>return fieldContents;
+</code></pre>
+
+<p><code>
+Since this assumes the Terms to be stored in the index, you must index the attribute as follows:
+</code> java
+doc.add(new Field("text", seminar.text, Field.Store.YES,</p>
+
+<pre><code>    Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS));
+</code></pre>
+
+<p>```</p>
+
+<h2>Updating the index</h2>
+
+<p>Maybe you do want to update your index whenever a model changes.
+Using Play 2.0, I have overwritten the save() and update() methods:
+``` java</p>
+
+<pre><code>@Override
+public void update() {
+    Search.update(this);
+    super.update();
+}
+
+@Override
+public void save() {
+    if (id == null)
+        Search.add(this);
+    else
+        Search.update(this);
+    super.save();
+}
+</code></pre>
+
+<p><code>
+using these methods:
+</code> java
+public static void add(Model model) {</p>
+
+<pre><code>IndexWriter w = new IndexWriter(directory, config);
+Document doc = createDocument(model);
+w.addDocument(doc);
+w.close();
+</code></pre>
+
+<p>}
+<code>
+and
+</code> java
+public static void update(Model model) {</p>
+
+<pre><code>IndexWriter w = new IndexWriter(directory, config);
+Document doc = createDocument(model);
+Term term = new Term("id", doc.get("id"));
+if (model.state != model.State.Approved)
+    w.deleteDocuments(term);
+else
+    w.updateDocument(term, doc);
+w.close();
+</code></pre>
+
+<p>}
+<code>
+So here another field id is used to find the document in the index. But beware! Don't analyze this field:
+</code> java
+doc.add(new Field("id", "Model:" + model.id, Field.Store.YES,</p>
+
+<pre><code>    Field.Index.NOT_ANALYZED));
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Heroku | Joerg Viola]]></title>
+  <link href="http://joergviola.github.com/blog/categories/heroku/atom.xml" rel="self"/>
+  <link href="http://joergviola.github.com/"/>
+  <updated>2012-11-25T22:10:56+01:00</updated>
+  <id>http://joergviola.github.com/</id>
+  <author>
+    <name><![CDATA[Joerg Viola]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Don't use amend with heroku]]></title>
+    <link href="http://joergviola.github.com/blog/2012/05/27/dont-use-amend-with-heroku/"/>
+    <updated>2012-05-27T13:11:00+02:00</updated>
+    <id>http://joergviola.github.com/blog/2012/05/27/dont-use-amend-with-heroku</id>
+    <content type="html"><![CDATA[<p>I forgot to add a new file in a git commit (since I did not refresh my eclipse workspace).
+That caused a little surprise on the next release.</p>
+
+<!-- more -->
+
+
+<p>When trying to release to heroku the next time, I was told:
+<code>bash
+$ git push test master
+To git@heroku.com:test-66and33.git
+ ! [rejected]        master -&gt; master (non-fast-forward)
+error: failed to push some refs to 'git@heroku.com:test-66and33.git'
+To prevent you from losing history, non-fast-forward updates were rejected
+Merge the remote changes (e.g. 'git pull') before pushing again.  See the
+'Note about fast-forwards' section of 'git push --help' for details.
+</code></p>
+
+<p>I learned from <a href="http://stackoverflow.com/questions/3968281/git-pushing-amended-commits">Stackoverflow</a>
+that after amending a commit, you have to force the next push:
+<code>bash
+$ git push test master --force
+</code></p>
+
+<p>Conclusion from SO: Don't amend!</p>
+]]></content>
+  </entry>
+  
+</feed>
