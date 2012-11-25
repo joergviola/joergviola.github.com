@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Page Driven Functional Tests for Play 2.0-Java - Joerg Viola</title>
+  <meta name="author" content="Joerg Viola">
+
+  
+  <meta name="description" content="I proudly announce the first release (0.1) of funcy, a library for
+Page Driven Functional Tests for Play 2.0-Java. See GitHub for source and docu. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://joergviola.github.com/blog/2012/06/04/page-driven-functional-tests-for-play-2-dot-0">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Joerg Viola" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15836168-8']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">
+  	<img src="/images/logo.png" height="100px" style="vertical-align:middle">
+  	Joerg Viola
+  </a></h1>
+  
+    <h2>Lean. Web. Development.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:joergviola.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/examples">Play By Examples</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Page Driven Functional Tests for Play 2.0-Java</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-04T20:44:00+02:00" pubdate data-updated="true">Jun 4<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I proudly announce the first release (0.1) of funcy, a library for
+Page Driven Functional Tests for Play 2.0-Java.</p>
+
+<p><a href="https://github.com/joergviola/funcy">See GitHub for source and docu.</a></p>
+
+<!-- more -->
+
+
+<p>Functional Tests in Play 2.0 are the best way to test web applications:</p>
+
+<ul>
+<li>In standard web applications, you simply do not have really complex business logic. There is no point in using unit tests.</li>
+<li>Selenium tests are hard to setup (even with Plays support), require explizit fixtures and they are very slow - too slow to be run before each commit.</li>
+</ul>
+
+
+<p>Example: Booking a ticket is fairly easy: Simply write a row into a database.
+Whats the point of writing a unit test for that?</p>
+
+<p>Building the booking form, receiving the request, validating user input, creating the ticket,
+sending the confirmation mail and displaying the confirmation page, on the other hand, is quite a
+complex process.</p>
+
+<p>But testing it through selenium is hard and, if you run into the trap of recording your test cases,
+very prone to changes of the underlying software.</p>
+
+<p>Using Page Driven Play 2.0 Functional Tests provided by funcy, you can</p>
+
+<ul>
+<li>write your tests as simple unit tests</li>
+<li>check results by accessing resulting web page DOMs or the database directly</li>
+<li>run them very fast against an in-memory database.</li>
+</ul>
+
+
+<p>Consider this example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">testBooking</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">IndexPage</span> <span class="n">indexPage</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IndexPage</span><span class="o">();</span>
+</span><span class='line'>  <span class="n">EventPage</span> <span class="n">eventPage</span> <span class="o">=</span> <span class="n">indexPage</span><span class="o">.</span><span class="na">clickEvent</span><span class="o">(</span><span class="s">&quot;Sidney Opera&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">BookingPage</span> <span class="n">bookingPage</span> <span class="o">=</span> <span class="n">eventPage</span><span class="o">.</span><span class="na">book</span><span class="o">(</span><span class="s">&quot;2012/05/07&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">ConfirmationPage</span> <span class="n">confirmationPage</span> <span class="o">=</span> <span class="n">bookingPage</span><span class="o">.</span><span class="na">book</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">Booking</span><span class="o">&gt;</span> <span class="n">bookings</span> <span class="o">=</span> <span class="n">Booking</span><span class="o">.</span><span class="na">all</span><span class="o">();</span>
+</span><span class='line'>  <span class="n">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">(</span><span class="s">&quot;#bookings&quot;</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">bookings</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Joerg Viola</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-04T20:44:00+02:00" pubdate data-updated="true">Jun 4<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/play/'>Play</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://joergviola.github.com/blog/2012/06/04/page-driven-functional-tests-for-play-2-dot-0/" data-via="joergviola" data-counturl="http://joergviola.github.com/blog/2012/06/04/page-driven-functional-tests-for-play-2-dot-0/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/05/27/dont-use-amend-with-heroku/" title="Previous Post: Don't use amend with heroku">&laquo; Don't use amend with heroku</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("joergviola", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/joergviola" class="twitter-follow-button" data-show-count="false">Follow @joergviola</a>
+  
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/06/04/page-driven-functional-tests-for-play-2-dot-0/">Page Driven Functional Tests for Play 2.0-Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/27/dont-use-amend-with-heroku/">Don't use amend with heroku</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/a-pdf-module-for-play-2-dot-0-java/">A PDF module for Play 2.0 Java</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/12/why-scala-templates-rock/">Why Scala templates rock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/11/upgrading-to-play-2-dot-0-1/">Upgrading to Play 2.0.1</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/joergviola">@joergviola</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'joergviola',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Joerg Viola -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'joergviola-github';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://joergviola.github.com/blog/2012/06/04/page-driven-functional-tests-for-play-2-dot-0/';
+        var disqus_url = 'http://joergviola.github.com/blog/2012/06/04/page-driven-functional-tests-for-play-2-dot-0/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

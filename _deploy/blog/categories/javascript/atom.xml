@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Javascript | Joerg Viola]]></title>
+  <link href="http://joergviola.github.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://joergviola.github.com/"/>
+  <updated>2012-11-25T22:10:17+01:00</updated>
+  <id>http://joergviola.github.com/</id>
+  <author>
+    <name><![CDATA[Joerg Viola]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JQuery UI Tools - UI Toolkit for Dummies]]></title>
+    <link href="http://joergviola.github.com/blog/2012/05/06/jquery-ui-tools-ui-toolkit-for-dummies/"/>
+    <updated>2012-05-06T21:35:00+02:00</updated>
+    <id>http://joergviola.github.com/blog/2012/05/06/jquery-ui-tools-ui-toolkit-for-dummies</id>
+    <content type="html"><![CDATA[<p>Interesting in fancy tabs, tooltips or overlays? -</p>
+
+<p>Take a look at <a href="http://jquerytools.org/">JQuery UI Tools</a></p>
+
+<!-- more -->
+
+
+<h2>Tooltip</h2>
+
+<p>Simply insert the tooltip right after the trigger element:
+``` html
+<a class="tip" href="...">Press here</a></p>
+
+<div class="tooltip">
+    This is my tip...
+</div>
+
+
+<p><code>
+activate it after page load:
+</code> javascript</p>
+
+<script type="text/javascript">
+    $('.tip').tooltip({ position: "bottom center", predelay: 500, effect: 'fade', fadeInSpeed:1000 });
+</script>
+
+
+<p><code>
+and style it in your css (or LESS, if that matters ;-):
+</code> css
+.tooltip {</p>
+
+<pre><code>display:none;
+width: 250px;
+background:white;
+border: 4px @orange solid;
+padding: 10px 20px;
+color:#000;
+</code></pre>
+
+<p>}
+```</p>
+
+<h2>Overlay</h2>
+
+<p>Link the overlay to the trigger element using <code>rel</code>:
+``` html
+<a class="pointer" rel="#preview">Press this!</a></p>
+
+<div id="preview" class="overlay">
+    Lightbox-Content goes here...
+</div>
+
+
+<p><code>
+activate it:
+</code> javascript</p>
+
+<script type="text/javascript">
+    $('a[rel]').overlay();
+</script>
+
+
+<p><code>
+and, again, add some style:
+</code> css
+.overlay {</p>
+
+<pre><code>display:none;
+z-index:10000;
+background-color:#fff;
+border: 4px solid @orange;
+padding: 10px 20px;
+</code></pre>
+
+<p>}</p>
+
+<p>.overlay .close {</p>
+
+<pre><code>background-image:url(/assets/images/close.png);
+position:absolute;
+right:-15px;
+top:-15px;
+cursor:pointer;
+height:35px;
+width:35px;
+</code></pre>
+
+<p>}
+```
+as well as this close button:
+<img class="right" src="/images/close.png"></p>
+]]></content>
+  </entry>
+  
+</feed>
