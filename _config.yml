@@ -31,7 +31,8 @@ permalink: /blog/:year/:month/:day/:title/
 source: source
 destination: public
 plugins: plugins
-code_dir: downloads/code
+code_dir: ../../play-by-example
+code_repo: https://github.com/joergviola/play-by-example/tree/master/
 category_dir: blog/categories
 markdown: rdiscount
 pygments: false # default python pygments have been replaced by pygments.rb
@@ -52,6 +53,7 @@ default_asides: [asides/twitter.html, asides/recent_posts.html, asides/github.ht
 # blog_index_asides:
 # post_asides:
 # page_asides:
+recipe_asides:		[custom/asides/toc.html]
 
 # ----------------------- #
 #   3rd Party Settings    #
