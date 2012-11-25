@@ -6,4 +6,4 @@ layout: recipe
 
 How to model business entities and store them to datastores and retrieve them
 
-1. [Storing a model in a database](model/store.html)
+1. [Storing a model in a database](store.html)
