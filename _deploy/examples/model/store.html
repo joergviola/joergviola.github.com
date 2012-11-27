@@ -9,7 +9,7 @@
   <meta name="author" content="Joerg Viola">
 
   
-  <meta name="description" content="Storing a Model in a (Relational) Database Scala In scala, a model is typically implemented as a case class: BlogEntry.scala full
+  <meta name="description" content="Storing a Model in a (Relational) Database Scala In scala, a model is typically implemented as a case class: BlogEntry.scala
 1
 2
 3
@@ -95,7 +95,7 @@ case class &hellip;">
 
 <p>In scala, a model is typically implemented as a case class:</p>
 
-<figure class='code'><figcaption><span>BlogEntry.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>full</a></figcaption>
+<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>BlogEntry.scala</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -105,12 +105,13 @@ case class &hellip;">
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>One way of implementing persistence is using Typesafe Slick.
+<p>One way of implementing persistence is using
+<a href="http://slick.typesafe.com">Typesafe Slick</a>.
 In order to get a driver-independent mapping of RDBMS tuples to
 instances of the model, a DAO class is created with the driver as an
 argument.</p>
 
-<figure class='code'><figcaption><span>BlogEntry.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>full</a></figcaption>
+<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>BlogEntry.scala</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -141,9 +142,42 @@ pair of functions.</li>
 </ul>
 
 
-<p>In order to be able to access the database, the following trait can then be used</p>
+<p>In order to be able to access the database, the following trait can then be used.
+It reads the currently defined database driver from the configuration and maps it to the corresponding Slick driver class:</p>
 
-<figure class='code'><figcaption><span>Persistent.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>full</a></figcaption>
+<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">trait</span> <span class="nc">Persistent</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">val</span> <span class="n">driver</span> <span class="k">=</span> <span class="nc">Configuration</span><span class="o">.</span><span class="n">root</span><span class="o">().</span><span class="n">getString</span><span class="o">(</span><span class="s">&quot;db.default.driver&quot;</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="s">&quot;org.h2.Driver&quot;</span> <span class="k">=&gt;</span> <span class="n">scala</span><span class="o">.</span><span class="n">slick</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">H2Driver</span>
+</span><span class='line'>  <span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then for access from outside, all DAOs of the project are instantiated using the driver:</p>
+
+<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="k">def</span> <span class="n">blogEntries</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BlogEntryDAO</span><span class="o">(</span><span class="n">driver</span><span class="o">).</span><span class="nc">BlogEntries</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next the actual DB to be used is read from the configuration as a datasource
+and then translated to a Slick Database:</p>
+
+<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">Database</span><span class="o">.</span><span class="n">forDataSource</span><span class="o">(</span><span class="nc">DB</span><span class="o">.</span><span class="n">getDataSource</span><span class="o">())</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we are able to define a controller <code>Action</code> that is running in a slick
+transaction context:</p>
+
+<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -152,58 +186,7 @@ pair of functions.</li>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">package</span> <span class="nn">controllers</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">import</span> <span class="nn">play.api.mvc._</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">play.api.db.DB</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">play.api.Play._</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">models.BlogEntryDAO</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">play.Configuration</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">slick.session.Database</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">slick.session.</span><span class="o">{</span> <span class="nc">Session</span> <span class="k">=&gt;</span> <span class="nc">SlickSession</span> <span class="o">}</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">slick.driver.ExtendedProfile</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">trait</span> <span class="nc">Persistent</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">def</span> <span class="n">driverClass</span> <span class="k">=</span> <span class="nc">Configuration</span><span class="o">.</span><span class="n">root</span><span class="o">().</span><span class="n">getString</span><span class="o">(</span><span class="s">&quot;db.default.driver&quot;</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="s">&quot;org.h2.Driver&quot;</span> <span class="k">=&gt;</span> <span class="s">&quot;scala.slick.driver.H2Driver&quot;</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">val</span> <span class="n">driver</span> <span class="k">=</span> <span class="n">singleton</span><span class="o">[</span><span class="kt">ExtendedProfile</span><span class="o">](</span><span class="n">driverClass</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">private</span> <span class="k">def</span> <span class="n">singleton</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)(</span><span class="k">implicit</span> <span class="n">man</span><span class="k">:</span> <span class="kt">Manifest</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=</span>
-</span><span class='line'>    <span class="nc">Class</span><span class="o">.</span><span class="n">forName</span><span class="o">(</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot;$&quot;</span><span class="o">).</span><span class="n">getField</span><span class="o">(</span><span class="s">&quot;MODULE$&quot;</span><span class="o">).</span><span class="n">get</span><span class="o">(</span><span class="n">man</span><span class="o">.</span><span class="n">runtimeClass</span><span class="o">).</span><span class="n">asInstanceOf</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="n">blogEntries</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BlogEntryDAO</span><span class="o">(</span><span class="n">driver</span><span class="o">).</span><span class="nc">BlogEntries</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">Database</span><span class="o">.</span><span class="n">forDataSource</span><span class="o">(</span><span class="nc">DB</span><span class="o">.</span><span class="n">getDataSource</span><span class="o">())</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nc">TransAction</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="o">(</span><span class="kt">Request</span><span class="o">[</span><span class="kt">AnyContent</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="nc">SlickSession</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Result</span><span class="o">)</span><span class="k">:</span> <span class="kt">Action</span><span class="o">[</span><span class="kt">AnyContent</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="k">def</span> <span class="nc">TransAction</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="o">(</span><span class="kt">Request</span><span class="o">[</span><span class="kt">AnyContent</span><span class="o">])</span> <span class="k">=&gt;</span> <span class="o">(</span><span class="nc">SlickSession</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Result</span><span class="o">)</span><span class="k">:</span> <span class="kt">Action</span><span class="o">[</span><span class="kt">AnyContent</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
 </span><span class='line'>    <span class="nc">Action</span> <span class="o">{</span> <span class="n">request</span> <span class="k">=&gt;</span>
 </span><span class='line'>      <span class="k">val</span> <span class="n">session</span> <span class="k">=</span> <span class="n">db</span><span class="o">.</span><span class="n">createSession</span>
 </span><span class='line'>      <span class="n">session</span> <span class="n">withTransaction</span> <span class="o">{</span>
@@ -211,17 +194,12 @@ pair of functions.</li>
 </span><span class='line'>      <span class="o">}</span>
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'>  <span class="o">}</span>
-</span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>It defines a function named <code>TransAction</code>, which defined a Play controller
-Action that runs in the context of a database transaction.
-Also, it defines all DAO classes to be used by the controller.</p>
+<p>In the controller, the <code>TransAction</code> can simply be used as follows:</p>
 
-<p>In the controller, the <code>TransAction</code> can simply be used:</p>
-
-<figure class='code'><figcaption><span>Application.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Application.scala'>full</a></figcaption>
+<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Application.scala'>Application.scala</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -259,7 +237,16 @@ Also, it defines all DAO classes to be used by the controller.</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p>Moreover, a simple <code>session.rollback</code> or throwing an exception would
+rollback the transaction.</p>
+
+<h3>References</h3>
+
+<p><a href="http://java.dzone.com/articles/getting-started-play-21-scala">http://java.dzone.com/articles/getting-started-play-21-scala</a></p>
+
 <h2>Java</h2>
+
+<p>To be written.</p>
 
   
     <footer>
@@ -280,12 +267,18 @@ Also, it defines all DAO classes to be used by the controller.</p>
   
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
 </div>
 
 <aside class="sidebar">
   
     <section>
-  <h1>Table of Contents</h1>
+  <h1>Play by Examples</h1>
   <ol>
 	<li><a href="/examples/introduction">The first example</a></li>
   <!--
@@ -326,7 +319,10 @@ Also, it defines all DAO classes to be used by the controller.</p>
       var disqus_shortname = 'joergviola-github';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://joergviola.github.com/examples/model/store.html';
+        var disqus_url = 'http://joergviola.github.com/examples/model/store.html';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

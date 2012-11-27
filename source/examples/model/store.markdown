@@ -25,15 +25,9 @@ Eventually, the mapping is defined
 pair of functions.
 
 In order to be able to access the database, the following trait can then be used.
-It reads the currently defined database driver from the configuration and maps 
-it to the corresponding Slick driver class:
+It reads the currently defined database driver from the configuration and maps it to the corresponding Slick driver class:
 
 {% include_source model/model-scala/app/controllers/Persistent.scala DriverDefinition %}
-
-This class is then instantiated. (A Scala object ```X``` is available as class ```X$``` 
-in the Java world and has a field ```MODULE$``` that holds its class at runtime.)  
-
-{% include_source model/model-scala/app/controllers/Persistent.scala DriverClass %}
 
 Then for access from outside, all DAOs of the project are instantiated using the driver:
 
@@ -55,6 +49,9 @@ In the controller, the ```TransAction``` can simply be used as follows:
 
 Moreover, a simple ```session.rollback``` or throwing an exception would
 rollback the transaction.
+
+### References
+[http://java.dzone.com/articles/getting-started-play-21-scala](http://java.dzone.com/articles/getting-started-play-21-scala)
 
 ## Java
 
