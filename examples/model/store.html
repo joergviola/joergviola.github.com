@@ -143,8 +143,7 @@ pair of functions.</li>
 
 
 <p>In order to be able to access the database, the following trait can then be used.
-It reads the currently defined database driver from the configuration and maps
-it to the corresponding Slick driver class:</p>
+It reads the currently defined database driver from the configuration and maps it to the corresponding Slick driver class:</p>
 
 <figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -152,24 +151,9 @@ it to the corresponding Slick driver class:</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 </pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">trait</span> <span class="nc">Persistent</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">def</span> <span class="n">driverClass</span> <span class="k">=</span> <span class="nc">Configuration</span><span class="o">.</span><span class="n">root</span><span class="o">().</span><span class="n">getString</span><span class="o">(</span><span class="s">&quot;db.default.driver&quot;</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="s">&quot;org.h2.Driver&quot;</span> <span class="k">=&gt;</span> <span class="s">&quot;scala.slick.driver.H2Driver&quot;</span>
+</span><span class='line'>  <span class="k">val</span> <span class="n">driver</span> <span class="k">=</span> <span class="nc">Configuration</span><span class="o">.</span><span class="n">root</span><span class="o">().</span><span class="n">getString</span><span class="o">(</span><span class="s">&quot;db.default.driver&quot;</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="s">&quot;org.h2.Driver&quot;</span> <span class="k">=&gt;</span> <span class="n">scala</span><span class="o">.</span><span class="n">slick</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">H2Driver</span>
 </span><span class='line'>  <span class="o">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This class is then instantiated. (A Scala object <code>X</code> is available as class <code>X$</code>
-in the Java world and has a field <code>MODULE$</code> that holds its class at runtime.)</p>
-
-<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="k">val</span> <span class="n">driver</span> <span class="k">=</span> <span class="n">singleton</span><span class="o">[</span><span class="kt">ExtendedProfile</span><span class="o">](</span><span class="n">driverClass</span><span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">private</span> <span class="k">def</span> <span class="n">singleton</span><span class="o">[</span><span class="kt">T</span><span class="o">](</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)(</span><span class="k">implicit</span> <span class="n">man</span><span class="k">:</span> <span class="kt">Manifest</span><span class="o">[</span><span class="kt">T</span><span class="o">])</span><span class="k">:</span> <span class="kt">T</span> <span class="o">=</span>
-</span><span class='line'>    <span class="nc">Class</span><span class="o">.</span><span class="n">forName</span><span class="o">(</span><span class="n">name</span> <span class="o">+</span> <span class="s">&quot;$&quot;</span><span class="o">).</span><span class="n">getField</span><span class="o">(</span><span class="s">&quot;MODULE$&quot;</span><span class="o">).</span><span class="n">get</span><span class="o">(</span><span class="n">man</span><span class="o">.</span><span class="n">runtimeClass</span><span class="o">).</span><span class="n">asInstanceOf</span><span class="o">[</span><span class="kt">T</span><span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -255,6 +239,10 @@ transaction context:</p>
 
 <p>Moreover, a simple <code>session.rollback</code> or throwing an exception would
 rollback the transaction.</p>
+
+<h3>References</h3>
+
+<p><a href="http://java.dzone.com/articles/getting-started-play-21-scala">http://java.dzone.com/articles/getting-started-play-21-scala</a></p>
 
 <h2>Java</h2>
 
