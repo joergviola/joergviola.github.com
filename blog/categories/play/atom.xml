@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Play | Joerg Viola]]></title>
   <link href="http://joergviola.github.com/blog/categories/play/atom.xml" rel="self"/>
   <link href="http://joergviola.github.com/"/>
-  <updated>2012-11-28T15:03:23+01:00</updated>
+  <updated>2012-11-30T09:29:58+01:00</updated>
   <id>http://joergviola.github.com/</id>
   <author>
     <name><![CDATA[Joerg Viola]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Play Meetings 2013]]></title>
+    <link href="http://joergviola.github.com/blog/2012/11/30/play-meetings-2013/"/>
+    <updated>2012-11-30T08:34:00+01:00</updated>
+    <id>http://joergviola.github.com/blog/2012/11/30/play-meetings-2013</id>
+    <content type="html"><![CDATA[<p>Is it only me? -
+Where can I get a trusted list of all conferences, meetups, events, and beer-drinking
+that are relevant to Play, Scala, Akka developpers?</p>
+
+<p>Let's gather them here - drop a comment and I'll add your event!</p>
+
+<!-- more -->
+
+
+<ul>
+<li><a href="http://www.devoxx.com/display/UK13/Home">Devoxx UK, London, March 26 - 27, 2013</a></li>
+<li><a href="http://www.devoxx.fr/display/FR13/Home">Devoxx France, Paris, March 27 - 29, 2013</a></li>
+<li><a href="http://jax.de/2013/">JAX, Mainz, April 22 - 26, 2013</a></li>
+<li><a href="http://uberconf.com/conference/denver/2013/07/home">Überconf, Denver, July 16 - 19, 2013</a></li>
+<li><a href="http://webtechcon.de">WebTech, Mainz, October 13 - 16, 2013</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Page Driven Functional Tests for Play 2.0-Java]]></title>
@@ -356,238 +381,6 @@ which does not interfere with the sbt compilation</li>
 </li>
 </ol>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Scala pearls for a dummy]]></title>
-    <link href="http://joergviola.github.com/blog/2012/05/06/scala-pearls-for-a-dummy/"/>
-    <updated>2012-05-06T11:33:00+02:00</updated>
-    <id>http://joergviola.github.com/blog/2012/05/06/scala-pearls-for-a-dummy</id>
-    <content type="html"><![CDATA[<p>After migrating to Play 2.0, being convinced one can use it with Java alone,
-I was curious enough to take a look at the Scala side of it.
-Read about some nice little discoverings of a scla beginner.</p>
-
-<!-- more -->
-
-
-<p>Of course, the first contact happens in Play 2.0 templates:</p>
-
-<h2>Typesafe</h2>
-
-<p>Templates have a signature, types are behind names and type parameters use square brackets.
-Thus the first line in every template reads like:
-<code>html
-@(state:State, users:List[User])
-</code></p>
-
-<h2>Looping</h2>
-
-<p>It is simple to loop over any collection:
-``` html
-@for(user &lt;- users) {</p>
-
-<pre><code>&lt;li&gt;&lt;a href="@routes.Publics.user(user.id)"&gt;@user.name&lt;/a&gt;&lt;/li&gt;
-</code></pre>
-
-<p>}
-<code>
-The cool thing is, you don't need any template extension or whatever to get the looping index.
-And you have tuples:
-</code> html
-@for((user,index) &lt;- users.zipWithIndex) {</p>
-
-<pre><code>@if(index&gt;0){
-    &lt;div class="seperator"&gt;&lt;/div&gt;
-}
-&lt;a href="@routes.Publics.user(user.id)"&gt;@index. @user.name&lt;/a&gt;
-</code></pre>
-
-<p>}
-<code>
-And - you have functions:
-</code> html
-@users.zipWithIndex.foreach { (user, index) =></p>
-
-<pre><code>@if(index&gt;0){
-    &lt;div class="seperator"&gt;&lt;/div&gt;
-}
-&lt;a href="@routes.Publics.user(user.id)"&gt;@index. @user.name&lt;/a&gt;
-</code></pre>
-
-<p>}
-<code>
-or
-</code> html</p>
-
-<pre><code>&lt;select name="@name" multiple="multiple"&gt;
-    @options.map { v =&gt;
-        &lt;option value="@v._1" @(if(v._3) "selected" else "")&gt;@v._2&lt;/option&gt;
-    }
-&lt;/select&gt;
-</code></pre>
-
-<p><code>
-Did you ever require a String representation of a list?
-</code> scala
-columns.map("<td>" + _ + "</td>").mkString
-```</p>
-
-<h2>Filtering</h2>
-
-<p>Imagine you were to get all Fields of a class with the annotation @Id. Here is the java code:
-``` java
-  public List<Field> idFields(Class&lt;? extends Object> c) {</p>
-
-<pre><code>List&lt;Field result = new ArrayList&lt;Field&gt;();
-for (Field f : c.getFields()) {
-    if (f.getAnnotation(Id.class)!=null) 
-        result.add(f);
-}
-return result;
-</code></pre>
-
-<p>  }
-<code>
-and this is scala:
-</code> scala
-  def idFields(c: Class[_ &lt;: Any]): Seq[Field] = c.getFields().toSeq filter { f => f.getAnnotation(classOf[Id]) != null }
-```</p>
-
-<h2>Case classes</h2>
-
-<p>Talking about shortness:
-``` java
-public class Person {</p>
-
-<pre><code>private String firstName;
-private String lastName;
-private Date birthday;
-private boolean gender;
-
-public Person(String firstName, String lastName, Date birthday,
-        boolean gender) {
-    super();
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.birthday = birthday;
-    this.gender = gender;
-}
-
-public String getFirstName() {
-    return firstName;
-}
-
-public void setFirstName(String firstName) {
-    this.firstName = firstName;
-}
-
-public String getLastName() {
-    return lastName;
-}
-
-public void setLastName(String lastName) {
-    this.lastName = lastName;
-}
-
-public Date getBirthday() {
-    return birthday;
-}
-
-public void setBirthday(Date birthday) {
-    this.birthday = birthday;
-}
-
-public boolean isGender() {
-    return gender;
-}
-
-public void setGender(boolean gender) {
-    this.gender = gender;
-}
-
-@Override
-public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result
-            + ((birthday == null) ? 0 : birthday.hashCode());
-    result = prime * result
-            + ((firstName == null) ? 0 : firstName.hashCode());
-    result = prime * result + (gender ? 1231 : 1237);
-    result = prime * result
-            + ((lastName == null) ? 0 : lastName.hashCode());
-    return result;
-}
-
-@Override
-public boolean equals(Object obj) {
-    if (this == obj)
-        return true;
-    if (obj == null)
-        return false;
-    if (getClass() != obj.getClass())
-        return false;
-    Person other = (Person) obj;
-    if (birthday == null) {
-        if (other.birthday != null)
-            return false;
-    } else if (!birthday.equals(other.birthday))
-        return false;
-    if (firstName == null) {
-        if (other.firstName != null)
-            return false;
-    } else if (!firstName.equals(other.firstName))
-        return false;
-    if (gender != other.gender)
-        return false;
-    if (lastName == null) {
-        if (other.lastName != null)
-            return false;
-    } else if (!lastName.equals(other.lastName))
-        return false;
-    return true;
-}
-</code></pre>
-
-<p>}
-<code>
-is equivalent to:
-</code> scala
-  case class Person(val firstName:String, lastName:String, birthday:Date, gender:boolean);
-```</p>
-
-<h2>Built-in singletons</h2>
-
-<p>No static methods:
-``` java
-class Person {</p>
-
-<pre><code>...
-public static Person create() {
-   ...
-   return person;
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>is equivalent to:
-``` scala
-  case class Person(val firstName:String, lastName:String, birthday:Date, gender:boolean);</p>
-
-<p>  object Person {</p>
-
-<pre><code>def create = Person();
-</code></pre>
-
-<p>  }
-```</p>
-
-<h2>Traits</h2>
-
-<p>Not yet used them, though they look cool!</p>
 ]]></content>
   </entry>
   

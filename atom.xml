@@ -4,7 +4,7 @@
   <title><![CDATA[Joerg Viola]]></title>
   <link href="http://joergviola.github.com/atom.xml" rel="self"/>
   <link href="http://joergviola.github.com/"/>
-  <updated>2012-11-28T15:03:23+01:00</updated>
+  <updated>2012-11-30T09:29:58+01:00</updated>
   <id>http://joergviola.github.com/</id>
   <author>
     <name><![CDATA[Joerg Viola]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Play Meetings 2013]]></title>
+    <link href="http://joergviola.github.com/blog/2012/11/30/play-meetings-2013/"/>
+    <updated>2012-11-30T08:34:00+01:00</updated>
+    <id>http://joergviola.github.com/blog/2012/11/30/play-meetings-2013</id>
+    <content type="html"><![CDATA[<p>Is it only me? -
+Where can I get a trusted list of all conferences, meetups, events, and beer-drinking
+that are relevant to Play, Scala, Akka developpers?</p>
+
+<p>Let&#8217;s gather them here - drop a comment and I&#8217;ll add your event!</p>
+
+<!-- more -->
+
+
+<ul>
+<li><a href="http://www.devoxx.com/display/UK13/Home">Devoxx UK, London, March 26 - 27, 2013</a></li>
+<li><a href="http://www.devoxx.fr/display/FR13/Home">Devoxx France, Paris, March 27 - 29, 2013</a></li>
+<li><a href="http://jax.de/2013/">JAX, Mainz, April 22 - 26, 2013</a></li>
+<li><a href="http://uberconf.com/conference/denver/2013/07/home">Überconf, Denver, July 16 - 19, 2013</a></li>
+<li><a href="http://webtechcon.de">WebTech, Mainz, October 13 - 16, 2013</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Page Driven Functional Tests for Play 2.0-Java]]></title>
