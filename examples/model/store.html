@@ -9,11 +9,9 @@
   <meta name="author" content="Joerg Viola">
 
   
-  <meta name="description" content="Storing a Model in a (Relational) Database Scala In scala, a model is typically implemented as a case class: BlogEntry.scala
-1
-2
-3
-case class &hellip;">
+  <meta name="description" content="Storing a Model in a (Relational) Database Scala One way of implementing persistence is using
+Typesafe Slick.
+In order to get a driver-independent &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,47 +91,62 @@ case class &hellip;">
   
   <h2>Scala</h2>
 
-<p>In scala, a model is typically implemented as a case class:</p>
-
-<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>BlogEntry.scala</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">BlogEntry</span><span class="o">(</span>
-</span><span class='line'>  <span class="n">subject</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
-</span><span class='line'>  <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
 <p>One way of implementing persistence is using
 <a href="http://slick.typesafe.com">Typesafe Slick</a>.
 In order to get a driver-independent mapping of RDBMS tuples to
-instances of the model, a DAO class is created with the driver as an
-argument.</p>
+instances of the model, one may take a look at the driver configured and
+map it to the corresponding slick driver class:</p>
 
-<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>BlogEntry.scala</a></figcaption>
+<figure class='code'><figcaption><span>Persistent.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Github</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">class</span> <span class="nc">BlogEntryDAO</span><span class="o">(</span><span class="k">val</span> <span class="n">driver</span><span class="k">:</span> <span class="kt">ExtendedProfile</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">import</span> <span class="nn">driver.simple._</span>
-</span><span class='line'>  <span class="k">object</span> <span class="nc">BlogEntries</span> <span class="k">extends</span> <span class="nc">Table</span><span class="o">[</span><span class="kt">BlogEntry</span><span class="o">](</span><span class="s">&quot;BLOG_ENTRY&quot;</span><span class="o">)</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">def</span> <span class="n">subject</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;SUBJECT&quot;</span><span class="o">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="n">text</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;TEXT&quot;</span><span class="o">)</span>
-</span><span class='line'>    <span class="k">def</span> <span class="o">*</span> <span class="k">=</span> <span class="n">subject</span> <span class="o">~</span> <span class="n">text</span> <span class="o">&lt;&gt;</span> <span class="o">(</span><span class="nc">BlogEntry</span><span class="o">,</span> <span class="nc">BlogEntry</span><span class="o">.</span><span class="n">unapply</span> <span class="n">_</span><span class="o">)</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">object</span> <span class="nc">Store</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">driver</span> <span class="k">=</span> <span class="nc">Configuration</span><span class="o">.</span><span class="n">root</span><span class="o">().</span><span class="n">getString</span><span class="o">(</span><span class="s">&quot;db.default.driver&quot;</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="s">&quot;org.h2.Driver&quot;</span> <span class="k">=&gt;</span> <span class="n">scala</span><span class="o">.</span><span class="n">slick</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">H2Driver</span>
 </span><span class='line'>  <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Then the drivers Table trait is imported.</p>
+<p>The driver can then be used to create the models.
+It is imported together with the slick driver base class <code>ExtendedProfile</code>
+and the slick session (= database connection):</p>
 
-<p>Eventually, the mapping is defined</p>
+<figure class='code'><figcaption><span>BlogEntry.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">import</span> <span class="nn">scala.slick.driver.ExtendedProfile</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">slick.session.</span><span class="o">{</span> <span class="nc">Session</span> <span class="k">=&gt;</span> <span class="nc">SlickSession</span> <span class="o">}</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">controllers.Store</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">import</span> <span class="nn">Store.driver.simple._</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then the model is easily written down. If an auto-increment primary key
+is required, it is given as an Option:</p>
+
+<figure class='code'><figcaption><span>BlogEntry.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">Author</span><span class="o">(</span>
+</span><span class='line'>    <span class="n">id</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">],</span>
+</span><span class='line'>    <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+</span><span class='line'>    <span class="n">pwd</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The mapping is formulated</p>
 
 <ul>
 <li>in terms of the columns and their types and names and</li>
@@ -142,42 +155,82 @@ pair of functions.</li>
 </ul>
 
 
-<p>In order to be able to access the database, the following trait can then be used.
-It reads the currently defined database driver from the configuration and maps it to the corresponding Slick driver class:</p>
+<p>If an autoincrement primary key is involved, it is a good idea to define
+a second projection that returns the newly created id after an insert:</p>
 
-<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
+<figure class='code'><figcaption><span>BlogEntry.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>Github</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">object</span> <span class="nc">Authors</span> <span class="k">extends</span> <span class="nc">Table</span><span class="o">[</span><span class="kt">Author</span><span class="o">](</span><span class="s">&quot;AUTHOR&quot;</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">id</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="s">&quot;ID&quot;</span><span class="o">,</span> <span class="n">O</span><span class="o">.</span><span class="nc">PrimaryKey</span><span class="o">,</span> <span class="n">O</span><span class="o">.</span><span class="nc">AutoInc</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">name</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;NAME&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">pwd</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;PWD&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="o">*</span> <span class="k">=</span> <span class="n">id</span><span class="o">.?</span> <span class="o">~</span> <span class="n">name</span> <span class="o">~</span> <span class="n">pwd</span> <span class="o">&lt;&gt;</span> <span class="o">(</span><span class="nc">Author</span><span class="o">,</span> <span class="nc">Author</span><span class="o">.</span><span class="n">unapply</span> <span class="n">_</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">create</span> <span class="k">=</span> <span class="n">id</span><span class="o">.?</span> <span class="o">~</span> <span class="n">name</span> <span class="o">~</span> <span class="n">pwd</span> <span class="o">&lt;&gt;</span> <span class="o">(</span><span class="nc">Author</span><span class="o">,</span> <span class="nc">Author</span><span class="o">.</span><span class="n">unapply</span> <span class="n">_</span><span class="o">)</span> <span class="n">returning</span> <span class="n">id</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If a reference is required, one first has to accept that slick strictly
+inhibits the use of lazy loading (you can use it, but you&#8217;re on your own then).
+Instead, joins are used. Let&#8217;s see how.
+The model only contains the id of the referenced object:</p>
+
+<figure class='code'><figcaption><span>BlogEntry.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">BlogEntry</span><span class="o">(</span>
+</span><span class='line'>  <span class="n">authorId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
+</span><span class='line'>  <span class="n">subject</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+</span><span class='line'>  <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The mapping declares a <code>foreignKey</code> based on this id:</p>
+
+<figure class='code'><figcaption><span>BlogEntry.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/models/BlogEntry.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">object</span> <span class="nc">BlogEntries</span> <span class="k">extends</span> <span class="nc">Table</span><span class="o">[</span><span class="kt">BlogEntry</span><span class="o">](</span><span class="s">&quot;BLOG_ENTRY&quot;</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">authorId</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">Int</span><span class="o">](</span><span class="s">&quot;AUTH_ID&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">subject</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;SUBJECT&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">text</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;TEXT&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="o">*</span> <span class="k">=</span> <span class="n">authorId</span> <span class="o">~</span> <span class="n">subject</span> <span class="o">~</span> <span class="n">text</span> <span class="o">&lt;&gt;</span> <span class="o">(</span><span class="nc">BlogEntry</span><span class="o">,</span> <span class="nc">BlogEntry</span><span class="o">.</span><span class="n">unapply</span> <span class="n">_</span><span class="o">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="n">author</span> <span class="k">=</span> <span class="n">foreignKey</span><span class="o">(</span><span class="s">&quot;AUTH_FK&quot;</span><span class="o">,</span> <span class="n">authorId</span><span class="o">,</span> <span class="nc">Authors</span><span class="o">)(</span><span class="n">_</span><span class="o">.</span><span class="n">id</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order to be able to access the database, the following trait can then be used.
+It reads the actual DB to be used from the configuration as a datasource
+and then translates it to a Slick Database:</p>
+
+<figure class='code'><figcaption><span>Persistent.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
 </pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">trait</span> <span class="nc">Persistent</span> <span class="o">{</span>
-</span><span class='line'>  <span class="k">val</span> <span class="n">driver</span> <span class="k">=</span> <span class="nc">Configuration</span><span class="o">.</span><span class="n">root</span><span class="o">().</span><span class="n">getString</span><span class="o">(</span><span class="s">&quot;db.default.driver&quot;</span><span class="o">)</span> <span class="k">match</span> <span class="o">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="s">&quot;org.h2.Driver&quot;</span> <span class="k">=&gt;</span> <span class="n">scala</span><span class="o">.</span><span class="n">slick</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">H2Driver</span>
-</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">Database</span><span class="o">.</span><span class="n">forDataSource</span><span class="o">(</span><span class="nc">DB</span><span class="o">.</span><span class="n">getDataSource</span><span class="o">())</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Then for access from outside, all DAOs of the project are instantiated using the driver:</p>
-
-<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="k">def</span> <span class="n">blogEntries</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BlogEntryDAO</span><span class="o">(</span><span class="n">driver</span><span class="o">).</span><span class="nc">BlogEntries</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next the actual DB to be used is read from the configuration as a datasource
-and then translated to a Slick Database:</p>
-
-<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="k">lazy</span> <span class="k">val</span> <span class="n">db</span> <span class="k">=</span> <span class="nc">Database</span><span class="o">.</span><span class="n">forDataSource</span><span class="o">(</span><span class="nc">DB</span><span class="o">.</span><span class="n">getDataSource</span><span class="o">())</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now we are able to define a controller <code>Action</code> that is running in a slick
+<p>Now we are able to define a controller action that is running in a slick
 transaction context:</p>
 
-<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Persistent.scala</a></figcaption>
+<figure class='code'><figcaption><span>Persistent.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Persistent.scala'>Github</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -197,9 +250,60 @@ transaction context:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>In the controller, the <code>TransAction</code> can simply be used as follows:</p>
+<p>Now lets put all this together in the controller by subclassing <code>Persistent</code>
+and defining a <code>TransAction</code>:</p>
 
-<figure class='code'><figcaption><a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Application.scala'>Application.scala</a></figcaption>
+<figure class='code'><figcaption><span>Application.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Application.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">object</span> <span class="nc">Application</span> <span class="k">extends</span> <span class="nc">Controller</span> <span class="k">with</span> <span class="nc">Persistent</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">index</span> <span class="k">=</span> <span class="nc">TransAction</span> <span class="o">{</span> <span class="n">request</span> <span class="k">=&gt;</span>
+</span><span class='line'>    <span class="k">implicit</span> <span class="n">session</span> <span class="k">=&gt;</span>
+</span><span class='line'>      <span class="k">import</span> <span class="nn">Store.driver.simple._</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Inserts can be done like follows. Observe how the auto-increment id is used to establish
+the reference:</p>
+
+<figure class='code'><figcaption><span>Application.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Application.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'>      <span class="k">val</span> <span class="n">authId</span> <span class="k">=</span> <span class="nc">Authors</span><span class="o">.</span><span class="n">create</span><span class="o">.</span><span class="n">insert</span><span class="o">(</span><span class="nc">Author</span><span class="o">(</span><span class="nc">None</span><span class="o">,</span> <span class="s">&quot;Joerg&quot;</span><span class="o">,</span> <span class="s">&quot;869867&quot;</span><span class="o">))</span>
+</span><span class='line'>      <span class="nc">BlogEntries</span><span class="o">.</span><span class="n">insert</span><span class="o">(</span><span class="nc">BlogEntry</span><span class="o">(</span><span class="n">authId</span><span class="o">,</span> <span class="s">&quot;s1&quot;</span><span class="o">,</span> <span class="s">&quot;t1&quot;</span><span class="o">))</span>
+</span><span class='line'>      <span class="nc">BlogEntries</span><span class="o">.</span><span class="n">insert</span><span class="o">(</span><span class="nc">BlogEntry</span><span class="o">(</span><span class="n">authId</span><span class="o">,</span> <span class="s">&quot;s2&quot;</span><span class="o">,</span> <span class="s">&quot;t2&quot;</span><span class="o">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Slick is providing a lot of magic when it comes to queries, so that a join
+can be formulated as a standard scala <code>for</code> using the <code>foreignKey</code> to
+establish the join:</p>
+
+<figure class='code'><figcaption><span>Application.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/controllers/Application.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'>      <span class="k">val</span> <span class="n">entries</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">b</span> <span class="k">&lt;-</span> <span class="nc">BlogEntries</span>
+</span><span class='line'>        <span class="n">a</span> <span class="k">&lt;-</span> <span class="n">b</span><span class="o">.</span><span class="n">author</span>
+</span><span class='line'>      <span class="o">}</span> <span class="k">yield</span> <span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="n">b</span><span class="o">)</span>
+</span><span class='line'>      <span class="nc">Ok</span><span class="o">(</span><span class="n">views</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">index</span><span class="o">(</span><span class="s">&quot;Your new application is ready.&quot;</span><span class="o">,</span> <span class="n">entries</span><span class="o">.</span><span class="n">list</span><span class="o">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Moreover, a simple <code>session.rollback</code> or throwing an exception would
+rollback the transaction.</p>
+
+<p>The view is then very simple:</p>
+
+<figure class='code'><figcaption><span>index.scala.html</span> <a href='https://github.com/joergviola/play-by-example/tree/master//model/model-scala/app/views/index.scala.html'>Github</a></figcaption>
 <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -209,41 +313,28 @@ transaction context:</p>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">package</span> <span class="nn">controllers</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@(message: String, result:Seq[(Author,BlogEntry)])
 </span><span class='line'>
-</span><span class='line'><span class="k">import</span> <span class="nn">play.api._</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">play.api.mvc._</span>
-</span><span class='line'><span class="k">import</span> <span class="nn">models.BlogEntry</span>
+</span><span class='line'>@main(&quot;Welcome to Play 2.0&quot;) {
 </span><span class='line'>
-</span><span class='line'><span class="k">object</span> <span class="nc">Application</span> <span class="k">extends</span> <span class="nc">Controller</span> <span class="k">with</span> <span class="nc">Persistent</span> <span class="o">{</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="n">index</span> <span class="k">=</span> <span class="nc">TransAction</span> <span class="o">{</span> <span class="n">request</span> <span class="k">=&gt;</span>
-</span><span class='line'>    <span class="k">implicit</span> <span class="n">session</span> <span class="k">=&gt;</span>
-</span><span class='line'>      <span class="k">import</span> <span class="nn">driver.simple._</span>
-</span><span class='line'>      <span class="n">blogEntries</span><span class="o">.</span><span class="n">insert</span><span class="o">(</span><span class="nc">BlogEntry</span><span class="o">(</span><span class="s">&quot;s1&quot;</span><span class="o">,</span> <span class="s">&quot;t1&quot;</span><span class="o">))</span>
-</span><span class='line'>      <span class="k">val</span> <span class="n">entries</span> <span class="k">=</span> <span class="k">for</span> <span class="o">(</span><span class="n">b</span> <span class="k">&lt;-</span> <span class="n">blogEntries</span><span class="o">)</span> <span class="k">yield</span> <span class="n">b</span>
-</span><span class='line'>      <span class="nc">Ok</span><span class="o">(</span><span class="n">views</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">index</span><span class="o">(</span><span class="s">&quot;Your new application is ready.&quot;</span><span class="o">,</span> <span class="n">entries</span><span class="o">.</span><span class="n">list</span><span class="o">))</span>
-</span><span class='line'>  <span class="o">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">}</span>
+</span><span class='line'>    @message <span class="nt">&lt;br&gt;</span>
+</span><span class='line'>    @for((a,b) <span class="err">&lt;</span>- result) {
+</span><span class='line'>      @a.name (@a.id): @b.subject, @b.text <span class="nt">&lt;br&gt;</span>
+</span><span class='line'>  }
+</span><span class='line'>}
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Moreover, a simple <code>session.rollback</code> or throwing an exception would
-rollback the transaction.</p>
-
 <h3>References</h3>
 
-<p><a href="http://java.dzone.com/articles/getting-started-play-21-scala">http://java.dzone.com/articles/getting-started-play-21-scala</a>
-<a href="http://www.blogeek.com.ar/2012/11/24/play-framework-2-2-1-scala-with-slick-made-easy-with-example/">http://www.blogeek.com.ar/2012/11/24/play-framework-2-2-1-scala-with-slick-made-easy-with-example/</a></p>
+<p>These articles have been helpful:</p>
+
+<ul>
+<li><a href="http://java.dzone.com/articles/getting-started-play-21-scala">http://java.dzone.com/articles/getting-started-play-21-scala</a></li>
+<li><a href="http://www.blogeek.com.ar/2012/11/24/play-framework-2-2-1-scala-with-slick-made-easy-with-example/">http://www.blogeek.com.ar/2012/11/24/play-framework-2-2-1-scala-with-slick-made-easy-with-example/</a></li>
+<li><a href="http://stackoverflow.com/questions/13114255/getting-autoincrement-values-with-slick-library-in-scala">http://stackoverflow.com/questions/13114255/getting-autoincrement-values-with-slick-library-in-scala</a></li>
+</ul>
+
 
 <h2>Java</h2>
 
