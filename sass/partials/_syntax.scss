@@ -242,6 +242,7 @@ figure.code {
 }
 
 .download-source {
+  position: absolute; right: .8em;
   @include hover-link;
   color: #666 !important;
   z-index: 1;
