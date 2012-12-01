@@ -1,0 +1,22 @@
+---
+layout: post
+title: "Play Meetings 2013"
+date: 2012-11-30 08:34
+comments: true
+categories: 
+- Play
+---
+
+Is it only me? - 
+Where can I get a trusted list of all conferences, meetups, events, and beer-drinking
+that are relevant to Play, Scala, Akka developpers?
+
+Let's gather them here - drop a comment and I'll add your event!
+
+<!-- more -->
+
+* [Devoxx UK, London, March 26 - 27, 2013](http://www.devoxx.com/display/UK13/Home)
+* [Devoxx France, Paris, March 27 - 29, 2013](http://www.devoxx.fr/display/FR13/Home)
+* [JAX, Mainz, April 22 - 26, 2013](http://jax.de/2013/)
+* [Überconf, Denver, July 16 - 19, 2013](http://uberconf.com/conference/denver/2013/07/home)
+* [WebTech, Mainz, October 13 - 16, 2013](http://webtechcon.de)

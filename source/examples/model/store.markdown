@@ -52,7 +52,7 @@ rollback the transaction.
 
 ### References
 [http://java.dzone.com/articles/getting-started-play-21-scala](http://java.dzone.com/articles/getting-started-play-21-scala)
-
+[http://www.blogeek.com.ar/2012/11/24/play-framework-2-2-1-scala-with-slick-made-easy-with-example/](http://www.blogeek.com.ar/2012/11/24/play-framework-2-2-1-scala-with-slick-made-easy-with-example/)
 ## Java
 
 To be written.
