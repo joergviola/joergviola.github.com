@@ -5,12 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Introduction - Joerg Viola</title>
+  <title>Installing Play - Joerg Viola</title>
   <meta name="author" content="Joerg Viola">
 
   
-  <meta name="description" content="Introduction Here you&#8217;ll learn how to install the current release of Play 2.
-Then we will create a first sample application. Installing Play 2 &hellip;">
+  <meta name="description" content="Installing Play In order to work with Play 2.1, built on top of Scala 2.10, you have two options: Working with the current 2.1 Release 1
+2
+3
+$ curl &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +21,7 @@ Then we will create a first sample application. Installing Play 2 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://joergviola.github.com/examples/introduction">
+  <link rel="canonical" href="http://joergviola.github.com/examples/introduction/install.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -84,28 +86,49 @@ Then we will create a first sample application. Installing Play 2 &hellip;">
 <article role="article">
   
   <header>
-    <h1 class="entry-title">Introduction</h1>
+    <h1 class="entry-title">Installing Play</h1>
     
   </header>
   
-  <p>Here you&#8217;ll learn how to install the current release of Play 2.
-Then we will create a first sample application.</p>
+  <p>In order to work with Play 2.1, built on top of Scala 2.10, you have two options:</p>
 
-<ol>
-<li><a href="install.html">Installing Play 2.1</a></li>
-<li><a href="create.html">Creating an Application</a></li>
-</ol>
+<h2>Working with the current 2.1 Release</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl http://download.playframework.org/releases/play-2.1-RC1.zip
+</span><span class='line'>$ unzip play-2.1-RC1.zip
+</span><span class='line'>$ export PATH=$PATH:/path/to/play-2.1-RC1</span></code></pre></td></tr></table></div></figure>
 
 
-<!---
+<h2>Build the current master of Play</h2>
 
-1. Installing Play 2
-1. Building Play 2 from the sources
-1. Installing Eclipse
-1. Anatomy of an Application
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git://github.com/playframework/Play20.git
+</span><span class='line'>$ cd Play20/framework
+</span><span class='line'>$ ./build
+</span><span class='line'>&gt; publish-local
+</span><span class='line'>$ export PATH=$PATH:/path/to/Play20</span></code></pre></td></tr></table></div></figure>
 
--->
 
+<h2>Setting up eclipse</h2>
+
+<p>If you are feeling adventurous, you may use Scala-IDE in Eclipse 4 Juno:</p>
+
+<ul>
+<li>Download Juno from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/</a></li>
+<li>Install and start</li>
+<li>Install Scala-IDE from <code>http://download.scala-ide.org/sdk/e38/scala210/dev/site/</code></li>
+</ul>
+
+
+<p>Now, after <code>play eclipse</code>, you should be able to build your Play 2.1, Scala 2.10
+projects from Scala-IDE.</p>
 
   
     <footer>
@@ -113,7 +136,7 @@ Then we will create a first sample application.</p>
       
         <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://joergviola.github.com/examples/introduction/index.html" data-via="joergviola" data-counturl="http://joergviola.github.com/examples/introduction/index.html" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://joergviola.github.com/examples/introduction/install.html" data-via="joergviola" data-counturl="http://joergviola.github.com/examples/introduction/install.html" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -181,8 +204,8 @@ Then we will create a first sample application.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://joergviola.github.com/examples/introduction/index.html';
-        var disqus_url = 'http://joergviola.github.com/examples/introduction/index.html';
+        var disqus_identifier = 'http://joergviola.github.com/examples/introduction/install.html';
+        var disqus_url = 'http://joergviola.github.com/examples/introduction/install.html';
         var disqus_script = 'embed.js';
       
     (function () {
