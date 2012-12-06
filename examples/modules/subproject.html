@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using subprojects - Joerg Viola</title>
+  <meta name="author" content="Joerg Viola">
+
+  
+  <meta name="description" content="Using Subprojects Decomposing your application into subprojects can reduce build times a lot.
+Also, it adds structure to your source tree.
+The &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://joergviola.github.com/examples/modules/subproject.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Joerg Viola" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15836168-8']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">
+  	<img src="/images/logo.png" height="100px" style="vertical-align:middle">
+  	Joerg Viola
+  </a></h1>
+  
+    <h2>Lean. Web. Development.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:joergviola.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/examples">Play By Examples</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title">Using Subprojects</h1>
+    
+  </header>
+  
+  <p>Decomposing your application into subprojects can reduce build times a lot.
+Also, it adds structure to your source tree.
+The example app is a very simple two-pager, adding twitter bootstrap via
+WebJars as the only goodie. We want to hide the (very small) complexity
+of bootstrap/webjars in a sub-project called &#8220;pages&#8221;:</p>
+
+<h2>The sbt build</h2>
+
+<p>Lets start as <code>Build.scala</code>, where you define the sub-project.
+In general, you can have all types of sbt-projects here, but we are interested in
+Play-like sub-projects.</p>
+
+<p>The only external dependency is twitter bootstrap, which is very conveniently added
+via the <a href="http://www.webjars.org">WebJars-repository</a>:</p>
+
+<figure class='code'><figcaption><span>Build.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//modules/modules-scala/project/Build.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="k">val</span> <span class="n">appDependencies</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+</span><span class='line'>    <span class="s">&quot;org.webjars&quot;</span> <span class="o">%</span> <span class="s">&quot;webjars-play&quot;</span> <span class="o">%</span> <span class="s">&quot;2.1-RC1&quot;</span><span class="o">,</span>
+</span><span class='line'>    <span class="s">&quot;org.webjars&quot;</span> <span class="o">%</span> <span class="s">&quot;bootstrap&quot;</span> <span class="o">%</span> <span class="s">&quot;2.2.1&quot;</span>
+</span><span class='line'>  <span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The more interesting part is of course the actual definition of the sub-project,
+<code>pages</code> in this case. It looks like the usual Play Project definition in build files,
+despite the <code>path</code> argument, that specifies its location in the source tree.</p>
+
+<p>Afterwards, the sub-project is used in the <code>dependsOn</code>-clause of the actual main
+project:</p>
+
+<figure class='code'><figcaption><span>Build.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//modules/modules-scala/project/Build.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'>  <span class="k">val</span> <span class="n">pages</span> <span class="k">=</span> <span class="n">play</span><span class="o">.</span><span class="nc">Project</span><span class="o">(</span><span class="n">appName</span><span class="o">+</span><span class="s">&quot;-pages&quot;</span><span class="o">,</span> <span class="n">appVersion</span><span class="o">,</span>
+</span><span class='line'>      <span class="n">appDependencies</span><span class="o">,</span> <span class="n">path</span> <span class="k">=</span> <span class="n">file</span><span class="o">(</span><span class="s">&quot;modules/pages&quot;</span><span class="o">)).</span><span class="n">settings</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">val</span> <span class="n">main</span> <span class="k">=</span> <span class="n">play</span><span class="o">.</span><span class="nc">Project</span><span class="o">(</span><span class="n">appName</span><span class="o">,</span> <span class="n">appVersion</span><span class="o">,</span>
+</span><span class='line'>      <span class="n">appDependencies</span><span class="o">).</span><span class="n">settings</span><span class="o">().</span><span class="n">dependsOn</span><span class="o">(</span><span class="n">pages</span><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note how the dependencies, namely the webjars, are passed to both projects here.
+This is a little awkward and I&#8217;ll explain it later.</p>
+
+<h2>Routes</h2>
+
+<p>Now that we have declared the sub-project, we want to define the routes:</p>
+
+<figure class='code'><figcaption><span>routes</span> <a href='https://github.com/joergviola/play-by-example/tree/master//modules/modules-scala/conf/routes'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'># Routes
+</span><span class='line'># This file defines all application routes (Higher priority routes first)
+</span><span class='line'># ~~~~
+</span><span class='line'>
+</span><span class='line'># Home page
+</span><span class='line'>GET     /                           controllers.Application.index
+</span><span class='line'>GET     /one                        controllers.Application.one
+</span><span class='line'>
+</span><span class='line'>-&gt;     /pages                      pages.Routes
+</span><span class='line'>
+</span><span class='line'># Map static resources from the /public folder to the /assets URL path
+</span><span class='line'>GET     /assets/*file               controllers.Assets.at(path=&quot;/public&quot;, file)
+</span><span class='line'>GET     /webjars/*file              controllers.WebJarAssets.at(file)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note how requests to URIs staring with <code>/pages</code> are delegates to the router of the
+sub-project. (Note also that we are declaring a webjars asset helper, which is why we need
+the dependency to webjars in the main project.)</p>
+
+<p>The routes file of the sub-project, <code>modules/pages/conf/pages.conf</code>,
+looks more or less boring:</p>
+
+<figure class='code'><figcaption><span>pages.routes</span> <a href='https://github.com/joergviola/play-by-example/tree/master//modules/modules-scala/modules/pages/conf/pages.routes'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'># Routes
+</span><span class='line'># This file defines all application routes (Higher priority routes first)
+</span><span class='line'># ~~~~
+</span><span class='line'>
+</span><span class='line'># Home page
+</span><span class='line'>GET     /terms                      controllers.pages.Pages.terms
+</span><span class='line'>GET     /terms2                     controllers.pages.Pages.terms2
+</span><span class='line'>
+</span><span class='line'># Map static resources from the /public folder to the /assets URL path
+</span><span class='line'>GET     /assets/*file               controllers.Assets.at(path=&quot;/public&quot;, file)
+</span><span class='line'>GET     /webjars/*file              controllers.WebJarAssets.at(file)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(Note that again, the webjars asset helper is included, which is one reason for requiring
+the dependency for the sub-project. We need this because we want to add bootstrap to the
+main template, which is defined in the sub-project.)</p>
+
+<h2>Controller</h2>
+
+<p>The controllers of sub-projects are the same as for main projects, only that they should
+be put in the correct namespace, e.g. <code>controllers.pages</code>:</p>
+
+<figure class='code'><figcaption><span>Pages.scala</span> <a href='https://github.com/joergviola/play-by-example/tree/master//modules/modules-scala/modules/pages/app/controllers/Pages.scala'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">package</span> <span class="nn">controllers.pages</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">import</span> <span class="nn">play.api._</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">play.api.mvc._</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">object</span> <span class="nc">Pages</span> <span class="k">extends</span> <span class="nc">Controller</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">terms</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nc">Ok</span><span class="o">(</span><span class="n">views</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">pages</span><span class="o">.</span><span class="n">terms</span><span class="o">(</span><span class="s">&quot;hi there&quot;</span><span class="o">))</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="n">terms2</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nc">Ok</span><span class="o">(</span><span class="n">views</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">pages</span><span class="o">.</span><span class="n">terms</span><span class="o">(</span><span class="s">&quot;hi there 2&quot;</span><span class="o">))</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>View</h2>
+
+<p>The only interesting view is the main template in the sub project:</p>
+
+<p>First, the bootstrap ressources are imported via webjar:</p>
+
+<figure class='code'><figcaption><span>main.scala.html</span> <a href='https://github.com/joergviola/play-by-example/tree/master//modules/modules-scala/modules/pages/app/views/pages/main.scala.html'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>     <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&#39;stylesheet&#39;</span> <span class="na">href=</span><span class="s">&#39;@routes.WebJarAssets.at(WebJarAssets.locate(&quot;css/bootstrap.min.css&quot;))&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&#39;text/javascript&#39;</span> <span class="na">src=</span><span class="s">&#39;@routes.WebJarAssets.at(WebJarAssets.locate(&quot;jquery.min.js&quot;))&#39;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Afterwards, the usual bootstrap code can be used. Note how a reverse route into the
+sub project is formulated:</p>
+
+<figure class='code'><figcaption><span>main.scala.html</span> <a href='https://github.com/joergviola/play-by-example/tree/master//modules/modules-scala/modules/pages/app/views/pages/main.scala.html'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>     <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;navbar navbar-inverse navbar-fixed-top&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;navbar-inner&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;btn btn-navbar&quot;</span> <span class="na">data-toggle=</span><span class="s">&quot;collapse&quot;</span> <span class="na">data-target=</span><span class="s">&quot;.nav-collapse&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;icon-bar&quot;</span><span class="nt">&gt;&lt;/span&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;icon-bar&quot;</span><span class="nt">&gt;&lt;/span&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;icon-bar&quot;</span><span class="nt">&gt;&lt;/span&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/a&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">&quot;brand&quot;</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>Modules Test<span class="nt">&lt;/a&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;nav-collapse collapse&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;nav&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">&quot;active&quot;</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;@controllers.pages.routes.Pages.terms&quot;</span><span class="nt">&gt;</span>Terms<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/div&gt;</span><span class="c">&lt;!--/.nav-collapse --&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;container&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;hero-unit&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>              @content
+</span><span class='line'>          <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nt">&lt;hr&gt;</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="nt">&lt;footer&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;p&gt;</span><span class="ni">&amp;copy;</span> jv 2012<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;/footer&gt;</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This template can now very easily be used from the main project:</p>
+
+<figure class='code'><figcaption><span>index.scala.html</span> <a href='https://github.com/joergviola/play-by-example/tree/master//modules/modules-scala/app/views/index.scala.html'>Github</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>@(message: String)
+</span><span class='line'>
+</span><span class='line'>@pages.main(&quot;Index&quot;) {
+</span><span class='line'>    Hello, world
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>References:</h2>
+
+<ul>
+<li><a href="http://twitter.github.com/bootstrap/">http://twitter.github.com/bootstrap/</a></li>
+<li><a href="http://www.webjars.org/documentation">http://www.webjars.org/documentation</a></li>
+<li><a href="http://www.playframework.org/documentation/2.0.4/SBTSubProjects">http://www.playframework.org/documentation/2.0.4/SBTSubProjects</a></li>
+</ul>
+
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://joergviola.github.com/examples/modules/subproject.html" data-via="joergviola" data-counturl="http://joergviola.github.com/examples/modules/subproject.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Play by Examples</h1>
+  <ol>
+	<li><a href="/examples/introduction/">The first example</a></li>
+	<li><a href="/examples/model/">Database Access</a></li>
+	<li><a href="/examples/modules/">Subprojects, Plugins and Modules</a></li>
+  <!--
+	<li><a href="/controller.html">HTTP Controllers</a></li>
+	<li><a href="/view.html">Template Programming</a></li>
+  -->
+  <!--
+	<li><a href="/forms.html">Form Posting</a></li>
+	<li><a href="/apis.html">JSON and XML</a></li>
+	<li><a href="/file.html">File Upload</a></li>
+	<li><a href="/reactive.html">Reactive Programming</a></li>
+	<li><a href="/akka.html">Akka</a></li>
+	<li><a href="/global.html">Startup and Filters</a></li>
+	<li><a href="/testing.html">Testing</a></li>
+	<li><a href="/security.html">Security</a></li>
+  -->
+  </ol>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Joerg Viola -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'joergviola-github';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://joergviola.github.com/examples/modules/subproject.html';
+        var disqus_url = 'http://joergviola.github.com/examples/modules/subproject.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

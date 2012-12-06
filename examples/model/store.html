@@ -121,7 +121,9 @@ and the slick session (= database connection):</p>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">import</span> <span class="nn">scala.slick.driver.ExtendedProfile</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="c1">// &lt;import&gt;</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">scala.slick.driver.ExtendedProfile</span>
 </span><span class='line'><span class="k">import</span> <span class="nn">slick.session.</span><span class="o">{</span> <span class="nc">Session</span> <span class="k">=&gt;</span> <span class="nc">SlickSession</span> <span class="o">}</span>
 </span><span class='line'><span class="k">import</span> <span class="nn">controllers.Store</span>
 </span><span class='line'>
@@ -186,10 +188,40 @@ The model only contains the id of the referenced object:</p>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">BlogEntry</span><span class="o">(</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">import</span> <span class="nn">java.util.Date</span>
+</span><span class='line'><span class="c1">// &lt;import&gt;</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">scala.slick.driver.ExtendedProfile</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">slick.session.</span><span class="o">{</span> <span class="nc">Session</span> <span class="k">=&gt;</span> <span class="nc">SlickSession</span> <span class="o">}</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">controllers.Store</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">import</span> <span class="nn">Store.driver.simple._</span>
+</span><span class='line'><span class="c1">// &lt;/import&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// &lt;model&gt;</span>
+</span><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">BlogEntry</span><span class="o">(</span>
 </span><span class='line'>  <span class="n">authorId</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span>
 </span><span class='line'>  <span class="n">subject</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
 </span><span class='line'>  <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+</span><span class='line'><span class="k">case</span> <span class="k">class</span> <span class="nc">Author</span><span class="o">(</span>
+</span><span class='line'>    <span class="n">id</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Int</span><span class="o">],</span>
+</span><span class='line'>    <span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+</span><span class='line'>    <span class="n">pwd</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -375,11 +407,12 @@ rollback the transaction.</p>
   <h1>Play by Examples</h1>
   <ol>
 	<li><a href="/examples/introduction/">The first example</a></li>
+	<li><a href="/examples/model/">Database Access</a></li>
+	<li><a href="/examples/modules/">Subprojects, Plugins and Modules</a></li>
   <!--
 	<li><a href="/controller.html">HTTP Controllers</a></li>
 	<li><a href="/view.html">Template Programming</a></li>
   -->
-	<li><a href="/examples/model/">Database Access</a></li>
   <!--
 	<li><a href="/forms.html">Form Posting</a></li>
 	<li><a href="/apis.html">JSON and XML</a></li>
@@ -387,7 +420,6 @@ rollback the transaction.</p>
 	<li><a href="/reactive.html">Reactive Programming</a></li>
 	<li><a href="/akka.html">Akka</a></li>
 	<li><a href="/global.html">Startup and Filters</a></li>
-	<li><a href="/modules.html">Plugins and Modules</a></li>
 	<li><a href="/testing.html">Testing</a></li>
 	<li><a href="/security.html">Security</a></li>
   -->

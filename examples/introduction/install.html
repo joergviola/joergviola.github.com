@@ -109,11 +109,29 @@ $ curl &hellip;">
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
+<span class='line-number'>6</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git://github.com/playframework/Play20.git
 </span><span class='line'>$ cd Play20/framework
 </span><span class='line'>$ ./build
 </span><span class='line'>&gt; publish-local
+</span><span class='line'>&gt; exit
 </span><span class='line'>$ export PATH=$PATH:/path/to/Play20</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To forget to update frequently:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd Play20
+</span><span class='line'>$ git pull
+</span><span class='line'>$ cd framework
+</span><span class='line'>$ ./build
+</span><span class='line'>&gt; publish-local
+</span><span class='line'>&gt; exit</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>Setting up eclipse</h2>
@@ -165,11 +183,12 @@ projects from Scala-IDE.</p>
   <h1>Play by Examples</h1>
   <ol>
 	<li><a href="/examples/introduction/">The first example</a></li>
+	<li><a href="/examples/model/">Database Access</a></li>
+	<li><a href="/examples/modules/">Subprojects, Plugins and Modules</a></li>
   <!--
 	<li><a href="/controller.html">HTTP Controllers</a></li>
 	<li><a href="/view.html">Template Programming</a></li>
   -->
-	<li><a href="/examples/model/">Database Access</a></li>
   <!--
 	<li><a href="/forms.html">Form Posting</a></li>
 	<li><a href="/apis.html">JSON and XML</a></li>
@@ -177,7 +196,6 @@ projects from Scala-IDE.</p>
 	<li><a href="/reactive.html">Reactive Programming</a></li>
 	<li><a href="/akka.html">Akka</a></li>
 	<li><a href="/global.html">Startup and Filters</a></li>
-	<li><a href="/modules.html">Plugins and Modules</a></li>
 	<li><a href="/testing.html">Testing</a></li>
 	<li><a href="/security.html">Security</a></li>
   -->
