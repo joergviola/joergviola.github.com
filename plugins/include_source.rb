@@ -58,6 +58,8 @@ module Jekyll
         title = file.basename
         url = "#{code_repo}/#{@file}"
         source = "<figure class='code'><figcaption><span>#{title}</span> <a href='#{url}'>Github</a></figcaption>\n"
+        @filetype="html" if @filetype=="" 
+        @filetype="html" if @filetype=="routes" 
         source += "#{highlight(code, @filetype)}</figure>"
         safe_wrap(source)
       end
@@ -68,15 +70,16 @@ module Jekyll
       code = ""
       all = ""
       file.each_line do |line|
-        if line.strip == "// </"+section+">"
-          on = false
-        end
         all += line
-        if on
-          code += line
-        end
-        if line.strip == "// <"+section+">"
-          on = true
+        if line.strip.include? ("/"+section)
+	      on = false
+		else        
+	      if on
+	        code += line
+	      end
+	      if line.strip.include? section
+	        on = true
+	      end
         end
 	  end    	
 	  if code==""
