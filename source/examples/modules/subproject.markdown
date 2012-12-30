@@ -42,7 +42,7 @@ Note how requests to URIs staring with ```/pages``` are delegates to the router 
 sub-project. (Note also that we are declaring a webjars asset helper, which is why we need 
 the dependency to webjars in the main project.)
 
-The routes file of the sub-project, ```modules/pages/conf/pages.conf```, 
+The routes file of the sub-project, ```modules/pages/conf/pages.routes```, 
 looks more or less boring:
 
 {% include_source modules/modules-scala/modules/pages/conf/pages.routes allall %}
