@@ -12,7 +12,7 @@ with [ObjectCode](http://www.objectcode.de),
 I recently fell in love with lightweight approaches like 
 [Lean Startup](http://www.startuplessonslearned.com/) and [Rework](http://37signals.com/rework/).
 
-I enjoy hacking with [Play! 2.0](http://www.playframework.org) in Java and Scala with Eclipse, 
+I enjoy hacking with [Play! 2.1](http://www.playframework.com) in Java and Scala with Eclipse, 
 socializing on [github](https://github.com/joergviola), 
 deploying in no time on [heroku](http://heroku.com/), 
 blogging on [joergviola.github.com](http://joergviola.github.com).
