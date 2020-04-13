@@ -113,7 +113,7 @@ image: assets/images/work-and-travel.jpg
                 </svg>
             </div>
             <div class="ml-4">
-                <h3>Lesen & Hören</h3>
+                <h3><a href="/list">Lesen & Hören</a></h3>
                 <p>
                     Meine ganz persönlichen Helden und Lieblingbücher und meine Podcast-Liste.
                 </p>
@@ -128,7 +128,7 @@ image: assets/images/work-and-travel.jpg
             <div class="ml-4">
                 <h3>Ernährung</h3>
                 <p>
-                    Vegetarisch und - so gut ich kann vegan für Gesundheit und gegen industrielle Tier-"Produktion".
+                    Vegetarisch und - so gut ich kann - vegan für Gesundheit und gegen industrielle Tier-"Produktion".
                 </p>
             </div>
         </div>
@@ -137,14 +137,13 @@ image: assets/images/work-and-travel.jpg
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 16 16">
                 <path fill="#000000" d="M9 11.041v-0.825c1.102-0.621 2-2.168 2-3.716 0-2.485 0-4.5-3-4.5s-3 2.015-3 4.5c0 1.548 0.898 3.095 2 3.716v0.825c-3.392 0.277-6 1.944-6 3.959h14c0-2.015-2.608-3.682-6-3.959z"></path>
                 </svg>
-
             </div>
             <div class="ml-4">
-                <h3>Bewegung & Nachdenken</h3>
+                <h3>Dankbarkeit</h3>
                 <p>
-                    Ich liebe Yoga, Meditation und Laufen. 
-                    Ich liebe meine beiden Jungs.
-                    Und ich mag, was ich tue - und tue nur, was ich mag.
+                    Ich bin dankbar für die vielen Menschen, von denen ich lernen durfte.
+                    Für meinen beiden Jungs. 
+                    Und für Laufen, Meditieren und Yoga. 
                 </p>
             </div>
         </div>

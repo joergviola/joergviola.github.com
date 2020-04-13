@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 a {
-    @apply text-primary;
+    @apply text-secondary;
 }
 
 footer a {
