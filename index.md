@@ -21,7 +21,7 @@ image: assets/images/work-and-travel.jpg
 
 <div class="container mx-auto flex flex-col mt-8 mb-8">
     <div class="m-6">
-        <h2 class="text-xl font-bold">#business development</h2>
+        <h2>#business development</h2>
         Hier bin ich Entwickler und Unternehmer:
     </div>
     <div class="flex flex-col lg:flex-row mb-6">
@@ -30,7 +30,7 @@ image: assets/images/work-and-travel.jpg
                 <img class="w-32" src="{{'assets/images/oc-logo.png' | absolute_url}}">
             </div>
             <div class="ml-4">
-                <h3 class=" font-bold"><a href="https://www.objectcode.de" target="_blank">ObjectCode</a></h3>
+                <h3><a href="https://www.objectcode.de" target="_blank">ObjectCode</a></h3>
                 <p>
                     3D-Konfiguratoren und Augmented Reality für Web und e-commerce.
                 </p>
@@ -41,7 +41,7 @@ image: assets/images/work-and-travel.jpg
                 <img class="w-32" src="{{'assets/images/idant-logo.jpg' | absolute_url}}">
             </div>
             <div class="ml-4">
-                <h3 class=" font-bold"><a href="http://www.idant.io" target="_blank">Idant</a></h3>
+                <h3><a href="http://www.idant.io" target="_blank">Idant</a></h3>
                 <p>
                     App für Hospitality-Events, hauptsächlich Formel 1.
                 </p>
@@ -52,7 +52,7 @@ image: assets/images/work-and-travel.jpg
                 <img class="w-32" src="{{'assets/images/events2grow-logo.png' | absolute_url}}">
             </div>
             <div class="ml-4">
-                <h3 class=" font-bold"><a href="https://www.events2grow.com" target="_blank">Events2grow</a></h3>
+                <h3><a href="https://www.events2grow.com" target="_blank">Events2grow</a></h3>
                 <p>
                     Finde ganz einfach Veranstaltungen, die Dich wirklich voran bringen!
                 </p>
@@ -64,7 +64,7 @@ image: assets/images/work-and-travel.jpg
 <div class="bg-secondary">
     <div class="container mx-auto flex flex-col pt-8 pb-8 mt-8 mb-8">
         <div class="m-6">
-            <h2 class="text-xl font-bold">#software development</h2>
+            <h2>#software development</h2>
             Das sind meine Lieblings-Werkzeuge:
         </div>
         <div class="flex flex-col lg:flex-row mb-6">
@@ -73,7 +73,7 @@ image: assets/images/work-and-travel.jpg
                     <img class="w-32" src="{{'assets/images/laravel-logo.min.svg' | absolute_url}}">
                 </div>
                 <div class="ml-4">
-                    <h3 class=" font-bold"><a href="https://www.laravel.com" target="_blank">Laravel</a></h3>
+                    <h3><a href="https://www.laravel.com" target="_blank">Laravel</a></h3>
                     <p>Laravel ist ein modernes PHP-Framework, das mich effizient und aufgeräumt arbeiten lässt.</p>
                 </div>
             </div>
@@ -82,7 +82,7 @@ image: assets/images/work-and-travel.jpg
                     <img class="w-32" src="{{'assets/images/vuejs-logo.png' | absolute_url}}">
                 </div>
                 <div class="ml-4">
-                    <h3 class=" font-bold"><a href="https://www.vuejs.org" target="_blank">Vue.js</a></h3>
+                    <h3><a href="https://www.vuejs.org" target="_blank">Vue.js</a></h3>
                     <p>Komponentenbasierte Entwicklung von Single-Page-Apps, ohne den Ärger von React.</p>
                 </div>
             </div>
@@ -91,7 +91,7 @@ image: assets/images/work-and-travel.jpg
                     <img class="w-32" src="{{'assets/images/tailwind-logo.png' | absolute_url}}">
                 </div>
                 <div class="ml-4">
-                    <h3 class=" font-bold"><a href="https://www.tailwindcss.com" target="_blank">Tailwind</a></h3>
+                    <h3><a href="https://www.tailwindcss.com" target="_blank">Tailwind</a></h3>
                     <p>Ein utility-first CSS-Framework, mit dem individuelle Designs gut asussehen, auch wenn sie von Entwicklern kommen.</p>
                 </div>
             </div>
@@ -101,16 +101,19 @@ image: assets/images/work-and-travel.jpg
 
 <div class="container mx-auto flex flex-col mt-8 mb-8">
     <div class="m-6">
-        <h2 class="text-xl font-bold">#personal development</h2>
+        <h2>#personal development</h2>
         Meine Reise zu meinem besten Selbst:
     </div>
     <div class="flex flex-col lg:flex-row mb-6">
         <div class="flex-1 flex p-4 shadow-xl m-6">
             <div>
-                <img class="w-32" src="{{'assets/images/laravel-logo.min.svg' | absolute_url}}">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" viewBox="0 0 16 16">
+                <path fill="#000000" d="M14 2v13h-10.5c-0.829 0-1.5-0.672-1.5-1.5s0.671-1.5 1.5-1.5h9.5v-12h-10c-1.1 0-2 0.9-2 2v12c0 1.1 0.9 2 2 2h12v-14h-1z"></path>
+                <path fill="#000000" d="M3.501 13v0c-0 0-0.001 0-0.001 0-0.276 0-0.5 0.224-0.5 0.5s0.224 0.5 0.5 0.5c0 0 0.001-0 0.001-0v0h9.498v-1h-9.498z"></path>
+                </svg>
             </div>
             <div class="ml-4">
-                <h3 class=" font-bold">Lesen & Hören</h3>
+                <h3>Lesen & Hören</h3>
                 <p>
                     Meine ganz persönlichen Helden und Lieblingbücher und meine Podcast-Liste.
                 </p>
@@ -118,10 +121,12 @@ image: assets/images/work-and-travel.jpg
         </div>
         <div class="flex-1 flex p-4 shadow-xl m-6">
             <div>
-                <img class="w-32" src="{{'assets/images/vuejs-logo.png' | absolute_url}}">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 16 16">
+                <path fill="#000000" d="M3.5 0c-1.657 0-3 1.567-3 3.5 0 1.655 0.985 3.042 2.308 3.406l-0.497 8.096c-0.034 0.549 0.389 0.998 0.939 0.998h0.5c0.55 0 0.972-0.449 0.939-0.998l-0.497-8.096c1.323-0.365 2.308-1.751 2.308-3.406 0-1.933-1.343-3.5-3-3.5zM13.583 0l-0.833 5h-0.625l-0.417-5h-0.417l-0.417 5h-0.625l-0.833-5h-0.417v6.5c0 0.276 0.224 0.5 0.5 0.5h1.302l-0.491 8.002c-0.034 0.549 0.389 0.998 0.939 0.998h0.5c0.55 0 0.972-0.449 0.939-0.998l-0.491-8.002h1.302c0.276 0 0.5-0.224 0.5-0.5v-6.5h-0.417z"></path>
+                </svg>
             </div>
             <div class="ml-4">
-                <h3 class=" font-bold">Ernährung</h3>
+                <h3>Ernährung</h3>
                 <p>
                     Vegetarisch und - so gut ich kann vegan für Gesundheit und gegen industrielle Tier-"Produktion".
                 </p>
@@ -129,10 +134,13 @@ image: assets/images/work-and-travel.jpg
         </div>
         <div class="flex-1 flex p-4 shadow-xl m-6">
             <div>
-                <img class="w-32" src="{{'assets/images/tailwind-logo.png' | absolute_url}}">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 16 16">
+                <path fill="#000000" d="M9 11.041v-0.825c1.102-0.621 2-2.168 2-3.716 0-2.485 0-4.5-3-4.5s-3 2.015-3 4.5c0 1.548 0.898 3.095 2 3.716v0.825c-3.392 0.277-6 1.944-6 3.959h14c0-2.015-2.608-3.682-6-3.959z"></path>
+                </svg>
+
             </div>
             <div class="ml-4">
-                <h3 class=" font-bold">Bewegung & Nachdenken</h3>
+                <h3>Bewegung & Nachdenken</h3>
                 <p>
                     Ich liebe Yoga, Meditation und Laufen. 
                     Ich liebe meine beiden Jungs.

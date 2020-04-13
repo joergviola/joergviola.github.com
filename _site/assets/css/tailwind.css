@@ -15,3 +15,12 @@ footer a {
     background-repeat: no-repeat;
     background-position: center center;
 }
+
+h2 {
+    @apply text-xl font-bold mt-6 mb-4;
+}
+
+
+h3 {
+    @apply font-bold mt-4 mb-2;
+}
