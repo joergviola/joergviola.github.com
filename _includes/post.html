@@ -1,0 +1,13 @@
+<a href="{{ include.post.url }}" class="md:w-1/2 px-4 mb-8" style="display: block;color: inherit;">
+        <div class="h-full bg-white hover:bg-gray-200 lg:flex rounded border-t-4 border-blue-500 shadow-lg">
+            {% if include.post.image %}  
+                <div class="h-48 lg:h-full lg:w-1/2 lg:flex-1 shadow-lg bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url('{{include.post.image | absolute_url}}')">
+                </div>
+            {% endif %}     
+            <div class="lg:flex-1 p-6">
+                <span class="text-2xl mb-3 font-semibold text-blue-500">{{ include.post.title }}</span>
+                <p>{{ include.post.excerpt }}</p>
+                <small>{{ include.post.date | date: "%d.%m.%Y"  }}, {{ include.post.author }}</small>
+            </div> 
+        </div>
+</a>

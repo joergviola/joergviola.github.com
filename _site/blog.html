@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <title>Blog... Jörg Viola</title>
+        <meta name="description" content="">
+
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content="Blog" />
+        <meta property="og:description" content="">
+        <meta property="og:image" content="">
+        <meta property="og:url" content="http://localhost:4000/blog.html" /> 
+        	
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Blog">
+        <meta name="twitter:description" content="">
+        <meta name="twitter:image:src" content="">
+
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.ico">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="/assets/css/site.css">
+        
+    </head>
+
+    <body class="antialiased text-gray-900 overflow-x-hidden font-body">
+        <nav class="tailwind-menu z-10 w-full p-4 shadow">
+            <div class="flex flex-wrap items-center container mx-auto px-4">
+                <div class="flex flex-shrink-0">
+                    <a href="/">
+                        <img src="/assets/images/logo.png" width="40" alt="Jörg Viola" style="box-shadow: none;"/>
+                    </a>
+                </div>
+                <div class="ml-8 mr-12 flex flex-col text-2xl">
+                    <div>Jörg Viola, devpreneur</div>
+                </div>
+                
+            </div>
+        </nav>
+
+        <div class="flex flex-wrap max-w-5xl -mx-4 md:mx-auto -mb-6">
+
+</div>
+<div>
+    
+</div>
+
+
+
+        <footer class="bg-primary text-white h-24">
+            <div class="container mx-auto h-full">
+                <div class="h-full flex flex-wrap flex-col lg:flex-row items-center content-center text-sm text-white">
+                    <div class="text-center lg:text-left lg:mr-3">&copy; 2020 Jörg Viola</div>
+                    <div class="mx-auto my-4 lg:my-0 lg:ml-0">
+                        <a href="/impressum" target="_blank" class="inline-block mt-0 mx-3">Impressum</a>
+                        <a href="/datenschutz" target="_blank" class="inline-block mt-0 mx-3">Datenschutz</a>
+                    </div>
+                    <div>
+                        Powered by 
+                        <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>,
+                        <a href="https://pages.github.com/" target="_blank">Github Pages</a> and
+                        <a href="https://tailwindcss.com/" target="_blank">Tailwind CSS</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <script>
+            var buttons = document.getElementsByClassName('tailwind-burger')
+            for (var i=0; i<buttons.length; i++) {
+                buttons[i].addEventListener('click', function (event) {
+                    var menus = document.getElementsByClassName('submenu')
+                    for (var j=0; j<menus.length; j++) {
+                        menus[j].classList.toggle('hidden');
+                    }
+                })
+            }
+            
+        </script>
+        
+    </body>
+</html>

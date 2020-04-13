@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+    @apply text-primary;
+}
+
+footer a {
+    @apply text-secondary;
+}
+
+.hero-image {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}

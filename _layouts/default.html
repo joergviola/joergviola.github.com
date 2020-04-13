@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <title>{{page.title}}... Jörg Viola</title>
+        <meta name="description" content="{{ page.description }}">
+
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content="{{ page.title }}" />
+        <meta property="og:description" content="{{ page.description }}">
+        <meta property="og:image" content="{{ page.image | absolute_url }}">
+        <meta property="og:url" content="{{ page.url | absolute_url }}" /> 
+        	
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ page.title }}">
+        <meta name="twitter:description" content="{{ page.description }}">
+        <meta name="twitter:image:src" content="{{ page.image | absolute_url }}">
+
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/images/favicon.ico' | relative_url }}">
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+        
+    </head>
+
+    <body class="antialiased text-gray-900 overflow-x-hidden font-body">
+        <nav class="tailwind-menu z-10 w-full p-4 shadow">
+            <div class="flex flex-wrap items-center container mx-auto px-4">
+                <div class="flex flex-shrink-0">
+                    <a href="/">
+                        <img src="{{ '/assets/images/logo.png' | relative_url }}" width="40" alt="Jörg Viola" style="box-shadow: none;"/>
+                    </a>
+                </div>
+                <div class="ml-8 mr-12 flex flex-col text-2xl">
+                    <div>Jörg Viola, devpreneur</div>
+                </div>
+                {{%
+                <div class="block lg:hidden">
+                    <button class="tailwind-burger flex items-center px-3 py-2 border rounded text-blue-700 border-blue-700"><svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg></button>
+                </div>
+                <div class="submenu w-full hidden flex-grow lg:flex lg:items-center lg:w-auto">
+                    <div class="lg:mr-auto">
+                        <a class="block lg:inline-block mt-4 lg:mt-0 mr-10 text-gray-700 hover:text-secondary font-semibold" href="/index" >Willkommen</a>
+                        <a class="block lg:inline-block mt-4 lg:mt-0 mr-10 text-gray-700 hover:text-secondary font-semibold" href="/blog" data-section="features">Blog</a>
+                        <a class="block lg:inline-block mt-4 lg:mt-0 text-gray-700 hover:text-secondary font-semibold" href="https://www.objectcode.de/jobs" data-section="purchase">Jobs</a>
+                    </div>
+                </div>
+                %}}
+            </div>
+        </nav>
+
+        {{content}}
+
+
+        <footer class="bg-primary text-white h-24">
+            <div class="container mx-auto h-full">
+                <div class="h-full flex flex-wrap flex-col lg:flex-row items-center content-center text-sm text-white">
+                    <div class="text-center lg:text-left lg:mr-3">&copy; 2020 Jörg Viola</div>
+                    <div class="mx-auto my-4 lg:my-0 lg:ml-0">
+                        <a href="/impressum" target="_blank" class="inline-block mt-0 mx-3">Impressum</a>
+                        <a href="/datenschutz" target="_blank" class="inline-block mt-0 mx-3">Datenschutz</a>
+                    </div>
+                    <div>
+                        Powered by 
+                        <a href="https://jekyllrb.com/" target="_blank">Jekyll</a>,
+                        <a href="https://pages.github.com/" target="_blank">Github Pages</a> and
+                        <a href="https://tailwindcss.com/" target="_blank">Tailwind CSS</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <script>
+            var buttons = document.getElementsByClassName('tailwind-burger')
+            for (var i=0; i<buttons.length; i++) {
+                buttons[i].addEventListener('click', function (event) {
+                    var menus = document.getElementsByClassName('submenu')
+                    for (var j=0; j<menus.length; j++) {
+                        menus[j].classList.toggle('hidden');
+                    }
+                })
+            }
+            
+        </script>
+        
+    </body>
+</html>

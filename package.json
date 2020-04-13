@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "serve": "cross-env NODE_ENV=development concurrently \"postcss assets/css/tailwind.css -o assets/css/site.css --watch\"  \"live-server ./public\"",
+    "development": "cross-env NODE_ENV=development postcss assets/css/tailwind.css -o assets/css/site.css",
+    "production": "cross-env NODE_ENV=production postcss assets/css/tailwind.css -o assets/css/site.css",
+    "start": "npm run serve"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.5.1",
+    "tailwindcss": "^1.0"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^1.2.0",
+    "concurrently": "^4.1.0",
+    "cross-env": "^5.2.0",
+    "cssnano": "^4.1.10",
+    "live-server": "^1.2.1",
+    "postcss-cli": "^6.1.2"
+  }
+}
