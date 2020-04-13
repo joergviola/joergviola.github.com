@@ -5,7 +5,7 @@ description: Auf dieser Seite schreiben wir über interaktive 3D-Programmierung,
 image: assets/images/work-and-travel.jpg
 ---
 
-<div class="bg-fixed hero-image" style="height: 500px;background-image: url({{'assets/images/work-and-travel.jpg' | absolute_url}})">
+<div class="hero-image" style="height: 500px;background-image: url({{'assets/images/work-and-travel.jpg' | absolute_url}})">
     <div class="container mx-auto h-full flex flex-wrap items-end flex-row ">
         <div class="p-4 relative text-sm bg-primary text-white">
             <div class="text-6xl">@joergviola</div>
