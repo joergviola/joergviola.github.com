@@ -113,7 +113,7 @@ image: assets/images/work-and-travel.jpg
                 </svg>
             </div>
             <div class="ml-4">
-                <h3><a href="/list">Lesen & Hören</a></h3>
+                <h3><a href="/2020/04/12/meine-helden">Lesen & Hören</a></h3>
                 <p>
                     Meine ganz persönlichen Helden und Lieblingbücher und meine Podcast-Liste.
                 </p>
