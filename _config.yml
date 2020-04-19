@@ -3,3 +3,6 @@ title: Jörg Viola
 description: Jörg Viola
 excerpt_separator: <!--more-->
 exclude: ['CNAME', 'Gemfile', 'node_modules', '*.js', '*.json', '*.lock']
+url: "https://www.joergviola.de"
+plugins:
+  - jekyll-sitemap
