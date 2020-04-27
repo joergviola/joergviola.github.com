@@ -8,8 +8,7 @@ module.exports = {
     },
     fontFamily: {
       'body': ['Roboto', 'sans-serif'],
-    }
-      
+    }      
   },
   variants: {},
   plugins: [],

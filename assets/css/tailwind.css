@@ -24,3 +24,8 @@ h2 {
 h3 {
     @apply font-bold mt-4 mb-2;
 }
+
+ul {
+    list-style: disc;
+    margin: 0.5em 1em;
+}
