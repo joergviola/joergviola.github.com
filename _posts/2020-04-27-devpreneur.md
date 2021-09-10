@@ -1,5 +1,5 @@
 ---
-title:  "Was ist ein devpreneur?"
+title: "Was ist ein devpreneur?"
 layout: post
 ---
 
@@ -10,6 +10,7 @@ Ein devpreneur findet seine Freiheit, indem er Software entwickelt.
 ## Freiheit
 
 Freiheit in diesem Satz meint:
+
 - finanzielle Freiheit: Für die privaten Ausgaben nicht arbeiten zu müssen
 - inhaltliche Freiheit: An den Dingen arbeiten zu können, die er spannend findet
 - organisatorische Freiheit: Selbst bestimmen zu können, wann und wie er arbeitet
@@ -21,10 +22,10 @@ Ihm ist aber die Freiheit wichtig, der Wohlstand ist nur das Mittel zu diesem Zw
 
 ## Status
 
-Gesellschaftlicher Status ist ein Nullsummenspiel: 
-Steigt er auf, müssen andere absteigen. 
+Gesellschaftlicher Status ist ein Nullsummenspiel:
+Steigt er auf, müssen andere absteigen.
 Auf Statusspiele lässt er sich nicht ein.
-Wohlstand hingegen ist offensichtlich beliebig vermehrbar. 
+Wohlstand hingegen ist offensichtlich beliebig vermehrbar.
 Das ist sein Ziel.
 
 ## Ethischer Wohlstand
@@ -37,7 +38,7 @@ Er arbeitet daran, ohne unnötig Ressourcen zu verschwenden.
 ## Der Weg zum Wohlstand
 
 Man wird nicht reich, indem man seine Zeit verkauft. \\
-Er strebt danach, ein Unternehmen zu besitzen, dass ihm Einnahmen bringt.
+Er strebt danach, ein Unternehmen zu besitzen, das ihm Einnahmen bringt.
 
 ## Digitale Geschäftsmodelle
 
