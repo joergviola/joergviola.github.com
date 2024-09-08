@@ -24,10 +24,14 @@ Lesestoff, aus dem ich wirklich gelernt habe:
   * [Finde Dein Warum](https://www.amazon.de/Finde-dein-Warum-praktische-Bestimmung/dp/3868816747) 
   * [Das Café am Rande der Welt](https://www.amazon.de/Das-Caf%C3%A9-Rande-Welt-Erz%C3%A4hlung/dp/3423209690) 
   * [Alex Fischers Reicher als die XXXX](https://alex-fischer-duesseldorf.de/)
+  * [Schnelles Denken, langsames Denken](https://www.amazon.de/Schnelles-Denken-langsames-Daniel-Kahneman/dp/3886808866)
+  * [Senecas Briefe an Lucilius](https://www.reclam.de/data/media/978-3-15-011285-4.pdf)
 
 ## Podcasts
 
 Was ich so höre:
 
-  * [Citizen Circle Podcast](https://www.citizencircle.de/podcasts/)  
-  * [Devpreneur Podcast](https://charliereese.ca/devpreneur-podcast)
+  * [Der KI Podcast](https://open.spotify.com/show/7IYjMXCK7KUrNJyVCLUEjk?si=2msmCJ3LQrK7Ysya0R_ltw)
+  * [Scaling Champions](https://open.spotify.com/show/3u89TQSzXvVdM1DjpZvhbe?si=6OoQ30BWREqU7NkhLNNQKg)  
+  * [Productmanagement Im.puls](https://open.spotify.com/show/4ezan9vaPDFbBy8qjyVDHD?si=PxR8QzJjT3qvPa4OPXXFjQ)
+  * [Lanz & Precht](https://open.spotify.com/show/4bGWMQA1ANGTgcysDo14aX?si=nQ1V8KNhT4WVe0HmMTAtxQ)  

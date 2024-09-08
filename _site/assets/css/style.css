@@ -207,7 +207,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 .highlight .ss { color: #90a959; }
 
-body { font: 14px/22px 'Quattrocento Sans', "Helvetica Neue", Helvetica, Arial, sans-serif; color: #666; font-weight: 300; margin: 0px; padding: 0px 0 20px 0px; background: url(../images/body-background.png) #eae6d1; }
+body { font: 14px/22px 'Quattrocento Sans', "Helvetica Neue", Helvetica, Arial, sans-serif; color: #2b2b2b; font-weight: 300; margin: 0px; padding: 0px 0 20px 0px; background: url(../images/body-background.png) #eae6d1; }
 
 h1, h2, h3, h4, h5, h6 { color: #333; margin: 0 0 10px; }
 
@@ -223,7 +223,7 @@ h3, h4, h5, h6 { color: #666666; }
 
 h3 { font-size: 18px; line-height: 24px; }
 
-a { color: #3399cc; font-weight: 400; text-decoration: none; }
+a { color: #4276b6; font-weight: 400; text-decoration: none; }
 
 a small { font-size: 11px; color: #666; margin-top: -0.6em; display: block; }
 
@@ -242,6 +242,8 @@ code { font-family: 'Lucida Sans', Monaco, Bitstream Vera Sans Mono, Lucida Cons
 pre { padding: 8px 15px; background: #333333; border-radius: 3px; border: 1px solid #c7c7c7; overflow: auto; overflow-y: hidden; }
 pre code { margin: 0px; padding: 0px; }
 
+kbd { background-color: #fafbfc; border: 1px solid #c6cbd1; border-bottom-color: #959da5; border-radius: 3px; box-shadow: inset 0 -1px 0 #959da5; color: #444d56; display: inline-block; font-size: 11px; line-height: 10px; padding: 3px 5px; vertical-align: middle; }
+
 table { width: 100%; border-collapse: collapse; }
 
 th { text-align: left; padding: 5px 10px; border-bottom: 1px solid #e5e5e5; color: #444; }
@@ -258,8 +260,8 @@ header h1 { font: 40px/48px 'Copse', "Helvetica Neue", Helvetica, Arial, sans-se
 header p { color: #d8d8d8; text-shadow: rgba(0, 0, 0, 0.2) 0 1px 0; font-size: 18px; margin: 0px; }
 
 #banner { z-index: 100; left: 0; right: 50%; height: 50px; margin-right: -382px; position: fixed; top: 115px; background: #ffcc00; border: 1px solid #f0b500; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25); border-radius: 0px 2px 2px 0px; padding-right: 10px; }
-#banner .button { border: 1px solid #dba500; background: linear_gradient(#ffe788, #ffce38); border-radius: 2px; box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1); background-color: #FFE788; margin-left: 5px; padding: 10px 12px; margin-top: 6px; line-height: 14px; font-size: 14px; color: #333; font-weight: bold; display: inline-block; text-align: center; }
-#banner .button:hover { background: linear_gradient(#ffe788, #ffe788); background-color: #ffeca0; }
+#banner .button { border: 1px solid #dba500; background: linear-gradient(#ffe788, #ffce38); border-radius: 2px; box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.4), 0px 1px 1px rgba(0, 0, 0, 0.1); background-color: #FFE788; margin-left: 5px; padding: 10px 12px; margin-top: 6px; line-height: 14px; font-size: 14px; color: #333; font-weight: bold; display: inline-block; text-align: center; }
+#banner .button:hover { background: linear-gradient(#ffe788, #ffe788); background-color: #ffeca0; }
 #banner .fork { position: fixed; left: 50%; margin-left: -325px; padding: 10px 12px; margin-top: 6px; line-height: 14px; font-size: 14px; background-color: #FFE788; }
 #banner .downloads { float: right; margin: 0 45px 0 0; }
 #banner .downloads span { float: left; line-height: 52px; font-size: 90%; color: #9d7f0d; text-transform: uppercase; text-shadow: rgba(255, 255, 255, 0.2) 0 1px 0; }
@@ -290,7 +292,7 @@ footer { width: 180px; position: fixed; left: 50%; margin-left: -530px; bottom: 
   #banner { width: 100%; }
   #banner .downloads { margin-right: 60px; }
   #banner #logo { margin-right: 15px; }
-  section { border: 1px solid #e5e5e5; border-width: 1px 0; padding: 20px auto; margin: 190px auto 20px; max-width: 600px; }
+  section { border: 1px solid #e5e5e5; border-width: 1px 0; padding: 20px 0; margin: 190px auto 20px; max-width: 600px; }
   footer { text-align: center; margin: 20px auto; position: relative; left: auto; bottom: auto; width: auto; } }
 @media print, screen and (max-width: 720px) { body { word-wrap: break-word; }
   header { padding: 20px 20px; margin: 0; }
