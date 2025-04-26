@@ -1,0 +1,70 @@
+---
+layout: default
+---
+
+<section class="py-20 px-4 md:px-6">
+  <div class="max-w-5xl mx-auto grid grid-cols-4 gap-8 items-start">
+
+    <!-- Sidebar -->
+    <aside id="toc-sidebar"
+      class="block col-span-1 order-1 text-sm text-gray-700 sticky top-20 transition-all duration-300 ease-in-out">
+      {% include toc-course.html %}
+    </aside>
+
+    <!-- Hauptinhalt -->
+    <main id="main-content" class="col-span-3 order-2 transition-all duration-300 ease-in-out">
+      <div class="flex justify-start mb-6">
+        <button id="toc-toggle" class="px-3 py-2 bg-primary text-white rounded text-lg">
+          &lt;
+        </button>
+      </div>
+
+      <h1 class="text-3xl md:text-4xl font-bold text-primary mb-8">
+        {{ page.title }}
+      </h1>
+
+      <div class="course-content text-gray-800 space-y-6">
+        {{ content }}
+      </div>
+
+      {% if page.previous or page.next %}
+      <div class="flex justify-between mt-12 text-primary">
+        {% if page.previous %}
+        <a href="{{ page.previous.url }}">← {{ page.previous.title }}</a>
+        {% endif %}
+        {% if page.next %}
+        <a class="ml-auto" href="{{ page.next.url }}">{{ page.next.title }} →</a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </main>
+
+  </div>
+</section>
+
+<!-- Script für Sidebar Toggle -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var tocToggle = document.getElementById('toc-toggle');
+    var tocSidebar = document.getElementById('toc-sidebar');
+    var mainContent = document.getElementById('main-content');
+
+    if (tocToggle && tocSidebar && mainContent) {
+      tocToggle.addEventListener('click', function () {
+        if (tocSidebar.classList.contains('hidden')) {
+          // Sidebar wieder anzeigen
+          tocSidebar.classList.remove('hidden');
+          mainContent.classList.remove('col-span-4');
+          mainContent.classList.add('col-span-3');
+          tocToggle.innerHTML = '&lt;';
+        } else {
+          // Sidebar verstecken
+          tocSidebar.classList.add('hidden');
+          mainContent.classList.remove('col-span-3');
+          mainContent.classList.add('col-span-4');
+          tocToggle.innerHTML = '&gt;';
+        }
+      });
+    }
+  });
+</script>

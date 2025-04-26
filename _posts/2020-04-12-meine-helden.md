@@ -9,6 +9,7 @@ Menschen, die mich besonders inspiriert haben:
 
   * [Connie Biesalksi](https://conni.me/)
   * [Tim Ferris](https://tim.blog/)
+  * [Jonathan Oppenheim](/post-quantum-gravity)
 
 
 ## Bücher

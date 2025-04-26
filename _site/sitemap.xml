@@ -20,4 +20,7 @@
 <url>
 <loc>http://localhost:4000/</loc>
 </url>
+<url>
+<loc>http://localhost:4000/post-quantum-gravity/</loc>
+</url>
 </urlset>
