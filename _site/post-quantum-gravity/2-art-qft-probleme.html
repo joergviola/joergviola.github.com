@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>Allgemeine Relativitätstheorie – Crashkurs... Jörg Viola</title>
+    <title>Warum Gravitation und Quantenmechanik nicht zusammenpassen... Jörg Viola</title>
     <meta name="description" content="">
 
     <meta property="og:type" content="product" />
-    <meta property="og:title" content="Allgemeine Relativitätstheorie – Crashkurs" />
+    <meta property="og:title" content="Warum Gravitation und Quantenmechanik nicht zusammenpassen" />
     <meta property="og:description" content="">
     <meta property="og:image" content="">
-    <meta property="og:url" content="http://localhost:4000/post-quantum-gravity/1-1-allgemeine-relativitaetstheorie.html" />
+    <meta property="og:url" content="http://localhost:4000/post-quantum-gravity/2-art-qft-probleme.html" />
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Allgemeine Relativitätstheorie – Crashkurs">
+    <meta name="twitter:title" content="Warum Gravitation und Quantenmechanik nicht zusammenpassen">
     <meta name="twitter:description" content="">
     <meta name="twitter:image:src" content="">
 
@@ -201,133 +201,51 @@
       </div>
 
       <h1 class="text-3xl md:text-4xl font-bold text-primary mb-8">
-        Allgemeine Relativitätstheorie – Crashkurs
+        Warum Gravitation und Quantenmechanik nicht zusammenpassen
       </h1>
 
       <div class="course-content text-gray-800 space-y-6">
-        <h1 id="kapitel-11-allgemeine-relativitätstheorie--crashkurs">Kapitel 1.1: Allgemeine Relativitätstheorie – Crashkurs</h1>
+        <h1 id="kapitel-2-warum-gravitation-und-quantenmechanik-nicht-zusammenpassen">Kapitel 2: Warum Gravitation und Quantenmechanik nicht zusammenpassen</h1>
 
-<h2 id="was-gravitation-wirklich-ist">Was Gravitation wirklich ist</h2>
+<p>Die Allgemeine Relativitätstheorie (ART) und die Quantenfeldtheorie (QFT) sind beide überaus erfolgreiche Theorien. Die eine beschreibt die Struktur von Raum und Zeit, die andere die Welt der Teilchen und Kräfte. Doch bislang ist es nicht gelungen, beide Theorien in einer konsistenten Weise zu vereinen.</p>
 
-<p>In der klassischen Physik – also vor Einstein – war Gravitation eine Kraft, die Massen anzieht, so wie es Newton beschrieben hat. Doch Einsteins Allgemeine Relativitätstheorie (ART) revolutioniert dieses Bild grundlegend: Gravitation ist keine Kraft im herkömmlichen Sinn mehr, sondern eine <strong>Eigenschaft der Raumzeit selbst</strong>. Genauer: Masse und Energie <strong>krümmen</strong> die Raumzeit, und diese Krümmung bestimmt, wie sich andere Objekte bewegen.</p>
+<h2 id="physikalischer-konflikt-superposition-trifft-geometrie">Physikalischer Konflikt: Superposition trifft Geometrie</h2>
 
-<p>Teilchen folgen dabei nicht einer externen Kraft, sondern bewegen sich entlang sogenannter <strong>Geodäten</strong> – das sind die “geradesten möglichen Bahnen” in einer gekrümmten Geometrie. Was früher wie eine Anziehung erschien, ist in Wirklichkeit eine Folge der Krümmung von Raum und Zeit.</p>
+<p>In der Quantenmechanik sind Zustände in Superposition – ein Teilchen kann gleichzeitig hier und dort sein. Aber in der ART bestimmt die Energieverteilung, wie sich die Raumzeit krümmt.</p>
 
-<hr />
+<p>Was passiert also, wenn ein Objekt in Superposition an zwei Orten ist?<br />
+Krümmt es dann die Raumzeit auch in Superposition? Das ergibt ein diffuses, nicht beobachtbares Gravitationsfeld – etwas, das wir physikalisch so nicht sehen.</p>
 
-<h2 id="grundbegriffe-der-art">Grundbegriffe der ART</h2>
+<p>Diese Frage stellt sich konkret, wenn man die ART „klassisch“ lässt, aber das Materiefeld quantisiert – das sogenannte semiklassische Modell. Dabei ersetzt man in Einsteins Gleichungen den Energie-Impuls-Tensor durch seinen Erwartungswert:</p>
 
-<p>Um die Feldgleichungen und Oppenheims Theorie zu verstehen, lohnt es sich, einige Schlüsselbegriffe der ART systematisch zu klären. Diese Begriffe tauchen auch in der modifizierten Theorie bei Oppenheim auf.</p>
+\[G_{\mu
+u} = \frac{8\pi G}{c^4} \langle \psi | \hat{T}_{\mu
+u} | \psi 
+\rangle\]
 
-<h3 id="metrik--g_munu-">Metrik \( g_{\mu\nu} \)</h3>
+<p>Aber: dieser Erwartungswert beschreibt eine gemittelte Wirkung – nicht das, was „wirklich“ passiert. Die Raumzeit „sieht“ kein echtes Ereignis, sondern ein statistisches Mittel. Das ist unphysikalisch.</p>
 
-<p>Die <strong>Metrik</strong> ist das zentrale mathematische Objekt der ART. Sie bestimmt, wie Längen und Zeiten in der Raumzeit gemessen werden.</p>
+<h2 id="mathematische-inkompatibilität">Mathematische Inkompatibilität</h2>
 
-<p>Sie ist ein Tensorfeld, das jedem Punkt in der Raumzeit ein symmetrisches Tensorobjekt zuordnet. Aus ihr kann man alle geometrischen Größen der Raumzeit ableiten.</p>
+<p>Technisch liegt das Problem tiefer: Die ART ist eine klassische Feldtheorie auf einer differenzierbaren Mannigfaltigkeit – sie ist lokal, geometrisch und kovariant.</p>
 
-<p>Die elementare Formel lautet:</p>
+<p>Die QFT hingegen lebt auf einer festen Hintergrundraumzeit. Sie braucht eine definierte Kausalstruktur und globalen Zeitparameter. Sobald die Raumzeit selbst dynamisch wird (wie in der ART), zerfallen diese Voraussetzungen.</p>
 
-\[ds^2 = g_{\mu\nu} dx^\mu dx^\nu\]
+<p>Man kann zwar auf einer festen Metrik quantisieren – aber wenn die Metrik selbst fluktuiert (z. B. wegen Quantenunschärfe), weiß man nicht einmal, wie man den Hilbertraum definieren soll.</p>
 
-<p>Hierbei ist \( ds^2 \) das sogenannte <strong>Linienelement</strong> – es gibt den Abstand zweier infinitesimal benachbarter Ereignisse an.</p>
+<h2 id="was-wäre-wenn-raumzeit-selbst-quantisiert-ist">Was wäre, wenn Raumzeit selbst quantisiert ist?</h2>
 
-<p>In der speziellen Relativität ist \( g_{\mu\nu} = \text{diag}(-1, 1, 1, 1) \), aber in der ART kann sich \( g_{\mu\nu} \) von Ort zu Ort verändern. Diese Veränderung ist es, was man als Krümmung interpretiert.</p>
+<p>Viele Ansätze versuchen, die Raumzeit zu quantisieren – etwa in der Stringtheorie oder der Schleifenquantengravitation. Dabei wird entweder die Metrik, die Verbindung oder andere geometrische Größen selbst zu Operatoren gemacht.</p>
 
-<hr />
+<p>Aber bislang konnte keiner dieser Ansätze eindeutig zeigen, wie die klassische Raumzeitstruktur bei großen Skalen wiederhergestellt wird – geschweige denn experimentell testbare Vorhersagen machen.</p>
 
-<h3 id="christoffel-symbole--gammarho_munu-">Christoffel-Symbole \( \Gamma^\rho_{\mu\nu} \)</h3>
+<h2 id="das-fehlen-eines-kollapsmechanismus">Das Fehlen eines Kollapsmechanismus</h2>
 
-<p>Diese Größen beschreiben, wie sich Koordinatensysteme in einer gekrümmten Raumzeit verändern. Sie sind notwendig, um die Ableitung von Tensorfeldern in gekrümmten Räumen zu definieren (kovariante Ableitung).</p>
+<p>Ein weiteres Problem ist: In der QFT gibt es keine dynamische Erklärung, wie ein bestimmter Zustand realisiert wird. Die Superposition bleibt bestehen, solange keine Messung stattfindet – doch woher soll „Messung“ im Universum kommen?</p>
 
-<p>Sie werden direkt aus der Metrik berechnet:</p>
+<p>Modelle mit klassischer Raumzeit und quantisiertem Feld können diesen Kollaps nicht erklären. Das System bleibt mathematisch kohärent, aber physikalisch leer: Es beschreibt Wahrscheinlichkeiten, aber keine Realität.</p>
 
-\[\Gamma^\rho_{\mu\nu} = \frac{1}{2} g^{\rho\lambda} \left( \partial_\mu g_{\nu\lambda} + \partial_\nu g_{\mu\lambda} - \partial_\lambda g_{\mu\nu} \right)\]
-
-<p>Die Christoffel-Symbole sind keine Tensoren, aber sie sind essenziell für die Beschreibung von Geodäten und Krümmung.</p>
-
-<hr />
-
-<h3 id="riemann-krümmungstensor--rrho_-sigmamunu-">Riemann-Krümmungstensor \( R^\rho_{\ \sigma\mu\nu} \)</h3>
-
-<p>Der <strong>Riemann-Tensor</strong> misst die echte Krümmung der Raumzeit. Er gibt an, wie stark sich ein Vektor verändert, wenn man ihn entlang eines geschlossenen Weges paralleltransportiert. Wenn der Riemann-Tensor null ist, ist die Raumzeit flach.</p>
-
-<p>Er wird aus den Christoffel-Symbolen gebildet:</p>
-
-\[R^\rho_{\ \sigma\mu\nu} = \partial_\mu \Gamma^\rho_{\nu\sigma} - \partial_\nu \Gamma^\rho_{\mu\sigma} + \Gamma^\rho_{\mu\lambda} \Gamma^\lambda_{\nu\sigma} - \Gamma^\rho_{\nu\lambda} \Gamma^\lambda_{\mu\sigma}\]
-
-<hr />
-
-<h3 id="ricci-tensor--r_munu--und-ricci-skalar--r-">Ricci-Tensor \( R_{\mu\nu} \) und Ricci-Skalar \( R \)</h3>
-
-<p>Der <strong>Ricci-Tensor</strong> ist eine Kontraktion des Riemann-Tensors über den ersten und dritten Index:</p>
-
-\[R_{\mu\nu} = R^\lambda_{\ \mu\lambda\nu}\]
-
-<p>Er beschreibt, wie sich Volumina beim Paralleltransport verändern.</p>
-
-<p>Der <strong>Ricci-Skalar</strong> ist wiederum die Spur des Ricci-Tensors mit der Metrik:</p>
-
-\[R = g^{\mu\nu} R_{\mu\nu}\]
-
-<p>Diese beiden Größen sind wichtig für die dynamische Struktur der Feldgleichungen.</p>
-
-<hr />
-
-<h3 id="einstein-tensor--g_munu-">Einstein-Tensor \( G_{\mu\nu} \)</h3>
-
-<p>Der <strong>Einstein-Tensor</strong> ist eine spezielle Kombination aus Ricci-Tensor und Ricci-Skalar:</p>
-
-\[G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2} g_{\mu\nu} R\]
-
-<p>Er hat die besondere Eigenschaft, dass er <strong>divergenzfrei</strong> ist:</p>
-
-\[\nabla^\mu G_{\mu\nu} = 0\]
-
-<p>Das ist essenziell, weil es zur Energie- und Impulserhaltung passt.</p>
-
-<hr />
-
-<h3 id="energie-impuls-tensor--t_munu-">Energie-Impuls-Tensor \( T_{\mu\nu} \)</h3>
-
-<p>Der <strong>Energie-Impuls-Tensor</strong> beschreibt den physikalischen Inhalt der Raumzeit: Materie, Energie, Strahlung, Felder. Er ist ein symmetrischer Tensor, der in jedem Punkt angibt:</p>
-
-<ul>
-  <li>wie viel Energie vorhanden ist (\( T_{00} \)),</li>
-  <li>wie sich Energie und Impuls räumlich verteilen (\( T_{0i}, T_{i0} \)),</li>
-  <li>wie Druck, Spannung und Flussrichtungen in einem physikalischen System wirken (\( T_{ij} \)).</li>
-</ul>
-
-<p>In der klassischen Physik würde man sagen: \( T_{\mu\nu} \) enthält die Dichte- und Flussgrößen der Energie und des Impulses.</p>
-
-<p>Er ist die Quelle der Gravitation in Einsteins Gleichung – was auch immer Raumzeit krümmen soll, muss im \( T_{\mu\nu} \) stehen.</p>
-
-<hr />
-
-<h2 id="die-feldgleichungen-der-art">Die Feldgleichungen der ART</h2>
-
-<p>Nun sind wir bereit für die zentrale Gleichung der Allgemeinen Relativitätstheorie:</p>
-
-\[R_{\mu\nu} - \frac{1}{2} g_{\mu\nu} R = \frac{8\pi G}{c^4} T_{\mu\nu}\]
-
-<p>Diese Gleichung sagt: <strong>Geometrie = Energie</strong>.<br />
-Die linke Seite beschreibt die Krümmung der Raumzeit – die rechte Seite beschreibt ihren physikalischen Inhalt.</p>
-
-<p>Einstein selbst fasste das einmal so zusammen:</p>
-
-<blockquote>
-  <p>“Materie sagt der Raumzeit, wie sie sich krümmen soll. Die Raumzeit sagt der Materie, wie sie sich bewegen soll.”</p>
-</blockquote>
-
-<hr />
-
-<h2 id="bedeutung-für-diesen-kurs">Bedeutung für diesen Kurs</h2>
-
-<p>Die Feldgleichungen der ART bilden das Fundament, auf dem auch Oppenheims Theorie aufbaut.</p>
-
-<p>In seiner Sicht bleibt die Gravitation <strong>klassisch</strong> und geometrisch,<br />
-bekommt aber eine neue <strong>stochastische Rolle</strong> in der Dynamik quantenmechanischer Zustände.</p>
-
-<p>Damit diese Erweiterung verstanden werden kann, ist es wichtig, die Sprache und Struktur der ART grundlegend zu kennen – und das hast du jetzt getan.</p>
+<p>Oppenheims Ansatz setzt hier an: Er versucht, die Gravitation selbst als Ursache für den Kollaps zu sehen – nicht als Quantisierung der Metrik, sondern als Prinzip, das Realität selektiert.</p>
 
       </div>
 
